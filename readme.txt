@@ -1,4 +1,5 @@
 === Creative Commons Configurator ===
+License: Apache License v2
 Donate link: http://www.g-loaded.eu/about/donate/
 Tags: cc, license, metadata, legal, creative, commons, seo, attribution, copyright, cc license, creative commons, rights
 Requires at least: 2.7
@@ -18,8 +19,8 @@ Features at a glance:
 - License selection by using the web-based license selection API from CreativeCommons.org.
 - The license information can be reset at any time. This action also removes the options that are stored in the WordPress database.
 - Adds license information to:
- - The HTML head area of the every blog page (this is for search engine bots only – Not visible to human visitors).
- - The Atom, RSS 2.0 and RDF (RSS 1.0) feeds through the Creative Commons RSS module, which validates properly. This option is compatible only with WordPress 2 or newer due to technical reasons. It will not appear on versions older than 2.0.
+ - The HTML head area of the every blog page (this is for search engine bots only - Not visible to human visitors).
+ - The Atom, RSS 2.0 and RDF (RSS 1.0) feeds through the Creative Commons RSS module, which validates properly. This option is compatible only with WordPress 2 or newer due to technical reasons.
  - Displays a block with license information under the published content. Basic customization (license information and formatting) is available through the configuration panel.
 - Some template tags are provided for use in your theme templates.
 - The plugin is ready for localization.
@@ -56,11 +57,21 @@ Please, use our [issue database](http://www.codetrax.org/projects/wp-cc-configur
 
 == Screenshots ==
 
-1. Add-Meta-Tags administration interface.
+1. Creative-Commons-Configurator administration interface.
 
 
 == Changelog ==
 
-Please read the dynamic [changelog](http://www.codetrax.org/versions/127 "Creative-Commons-Configurator ChangeLog")
+In the following list there are links to the changelog of each release:
 
+- [1.3.1](http://www.codetrax.org/versions/129)
+- [1.3.0](http://www.codetrax.org/versions/127)
+- [1.2](http://www.codetrax.org/versions/7)
+- [1.1](http://www.codetrax.org/versions/5)
+- [1.0](http://www.codetrax.org/versions/22)
+- [0.6](http://www.codetrax.org/versions/45)
+- [0.5](http://www.codetrax.org/versions/44)
+- [0.4](http://www.codetrax.org/versions/43)
+- [0.2](http://www.codetrax.org/versions/42)
+- [0.1](http://www.codetrax.org/versions/41)
 

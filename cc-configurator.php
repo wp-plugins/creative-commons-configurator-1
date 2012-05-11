@@ -3,7 +3,7 @@
 Plugin Name: Creative Commons Configurator
 Plugin URI: http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/
 Description: Adds a Creative Commons license to your blog pages and feeds. Also, provides some <em>Template Tags</em> for use in your theme templates.
-Version: 1.3.0
+Version: 1.3.1
 Author: George Notaras
 Author URI: http://www.g-loaded.eu/
 License: Apache License v2
@@ -40,14 +40,15 @@ $default_button = "0";
  *
  * Translation files are searched in: wp-content/plugins
  */
-load_plugin_textdomain('cc-configurator', 'wp-content/plugins');
+load_plugin_textdomain('cc-configurator', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 
 
 /**
  * Settings Link in the ``Installed Plugins`` page
  */
 function bccl_plugin_actions( $links, $file ) {
-    if( $file == 'creative-commons-configurator-1/cc-configurator.php' && function_exists( "admin_url" ) ) {
+    // if( $file == 'creative-commons-configurator-1/cc-configurator.php' && function_exists( "admin_url" ) ) {
+    if( $file == plugin_basename(__FILE__) && function_exists( "admin_url" ) ) {
         $settings_link = '<a href="' . admin_url( 'options-general.php?page=cc-configurator-options' ) . '">' . __('Settings') . '</a>';
         // Add the settings link before other links
         array_unshift( $links, $settings_link );
@@ -73,7 +74,7 @@ function bccl_license_options () {
         wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
     }
 
-    // Default Add-Meta-Tags Settings
+    // Default CC-Configurator Settings
     $default_cc_settings = array(
         "license_url"   => "",
         "license_name"  => "",
@@ -244,7 +245,7 @@ function bccl_set_license_options($cc_settings) {
         <h2>'.__('Message from the author', 'cc-configurator').'</h2>
         <p style="font-size: 1.2em; padding-left: 2em;">'.__('<em>CC-Configurator</em> is released under the terms of the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License version 2</a> and, therefore, is <strong>free software</strong>.', 'cc-configurator').'</p>
         <p style="font-size: 1.2em; padding-left: 2em;">'.__('However, a significant amount of <strong>time</strong> and <strong>energy</strong> has been put into developing this plugin, so, its production has not been free from cost. If you find this plugin useful, I would appreciate an <a href="http://www.g-loaded.eu/about/donate/">extra cup of coffee</a>.', 'cc-configurator').'</p>
-        <p style="font-size: 1.2em; padding-left: 2em;">'.__('Thank you in advance,', 'cc-configurator').'</p>
+        <p style="font-size: 1.2em; padding-left: 2em;">'.__('Thank you in advance', 'cc-configurator').'</p>
         <div style="text-align: right;"><small>'.__('This message can de deactivated in the settings below.', 'cc-configurator').'</small></div>
     </div>
 
