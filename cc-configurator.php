@@ -3,7 +3,7 @@
 Plugin Name: Creative Commons Configurator
 Plugin URI: http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/
 Description: Adds a Creative Commons license to your blog pages and feeds. Also, provides some <em>Template Tags</em> for use in your theme templates.
-Version: 1.3.2
+Version: 1.4.0
 Author: George Notaras
 Author URI: http://www.g-loaded.eu/
 License: Apache License v2
@@ -84,6 +84,8 @@ function bccl_license_options () {
             "cc_head"       => "0",
             "cc_feed"       => "0",
             "cc_body"       => "0",
+            "cc_body_pages" => "0",
+            "cc_body_attachments"   => "0",
             "cc_body_img"   => "0",
             "cc_extended"   => "0",
             "cc_creator"    => "blogname",
@@ -115,6 +117,8 @@ function bccl_license_options () {
             "cc_head"       => $_POST["cc_head"],
             "cc_feed"       => $_POST["cc_feed"],
             "cc_body"       => $_POST["cc_body"],
+            "cc_body_pages" => $_POST["cc_body_pages"],
+            "cc_body_attachments" => $_POST["cc_body_attachments"],
             "cc_body_img"   => $_POST["cc_body_img"],
             "cc_extended"   => $_POST["cc_extended"],
             "cc_creator"    => $_POST["cc_creator"],
@@ -259,13 +263,13 @@ function bccl_set_license_options($cc_settings) {
         <tbody>
 
             <tr valign="top">
-            <th scope="row">'.__('Page Head HTML', 'cc-configurator').'</th>
+            <th scope="row">'.__('Syndicated Content', 'cc-configurator').'</th>
             <td>
             <fieldset>
-                <legend class="screen-reader-text"><span>'.__('Page Head HTML', 'cc-configurator').'</span></legend>
-                <input id="cc_head" type="checkbox" value="1" name="cc_head" '. (($cc_settings["options"]["cc_head"]=="1") ? 'checked="checked"' : '') .'" />
-                <label for="cc_head">
-                '.__('Include license information in the page\'s HTML head. This will not be visible to human visitors, but search engine bots will be able to read it. (Recommended)', 'cc-configurator').'
+                <legend class="screen-reader-text"><span>'.__('Syndicated Content', 'cc-configurator').'</span></legend>
+                <input id="cc_feed" type="checkbox" value="1" name="cc_feed" '. (($cc_settings["options"]["cc_feed"]=="1") ? 'checked="checked"' : '') .'" />
+                <label for="cc_feed">
+                '.__('Include license information in the blog feeds. (<em>Recommended</em>)', 'cc-configurator').'
                 </label>
                 <br />
             </fieldset>
@@ -273,13 +277,13 @@ function bccl_set_license_options($cc_settings) {
             </tr>
 
             <tr valign="top">
-            <th scope="row">'.__('Syndicated Content', 'cc-configurator').'</th>
+            <th scope="row">'.__('Page Head HTML', 'cc-configurator').'</th>
             <td>
             <fieldset>
-                <legend class="screen-reader-text"><span>'.__('Syndicated Content', 'cc-configurator').'</span></legend>
-                <input id="cc_feed" type="checkbox" value="1" name="cc_feed" '. (($cc_settings["options"]["cc_feed"]=="1") ? 'checked="checked"' : '') .'" />
-                <label for="cc_feed">
-                '.__('Include license information in the blog feeds. (Recommended)', 'cc-configurator').'
+                <legend class="screen-reader-text"><span>'.__('Page Head HTML', 'cc-configurator').'</span></legend>
+                <input id="cc_head" type="checkbox" value="1" name="cc_head" '. (($cc_settings["options"]["cc_head"]=="1") ? 'checked="checked"' : '') .'" />
+                <label for="cc_head">
+                '.__('Include license information in the page\'s HTML head. This will not be visible to human visitors, but search engine bots will be able to read it. Note that the insertion of license information in the HTML head is done in relation to the content types (posts, pages or attachment pages) on which the license text block is displayed (see the <em>text block</em> settings below). (<em>Recommended</em>)', 'cc-configurator').'
                 </label>
                 <br />
             </fieldset>
@@ -292,15 +296,31 @@ function bccl_set_license_options($cc_settings) {
             <fieldset>
                 <legend class="screen-reader-text"><span>'.__('Text Block', 'cc-configurator').'</span></legend>
 
+                <p>'.__('By enabling the following options, a small block of text, which contains links to the author, the work and the used license, is appended to the published content.', 'cc-configurator').'</p>
+
                 <input id="cc_body" type="checkbox" value="1" name="cc_body" '. (($cc_settings["options"]["cc_body"]=="1") ? 'checked="checked"' : '') .'" />
                 <label for="cc_body">
-                '.__('Add the text block with license information under the published content in single-post view. By enabling this option, a small block of text, which contains links to the author, the work and the used license, is appended to the published content. (Recommended)', 'cc-configurator').'
+                '.__('Posts: Add the text block with license information under the published posts. (<em>Recommended</em>)', 'cc-configurator').'
                 </label>
                 <br />
 
+                <input id="cc_body_pages" type="checkbox" value="1" name="cc_body_pages" '. (($cc_settings["options"]["cc_body_pages"]=="1") ? 'checked="checked"' : '') .'" />
+                <label for="cc_body_pages">
+                '.__('Pages: Add the text block with license information under the published pages.', 'cc-configurator').'
+                </label>
+                <br />
+
+                <input id="cc_body_attachments" type="checkbox" value="1" name="cc_body_attachments" '. (($cc_settings["options"]["cc_body_attachments"]=="1") ? 'checked="checked"' : '') .'" />
+                <label for="cc_body_attachments">
+                '.__('Attachments: Add the text block with license information under the attached content in attachment pages.', 'cc-configurator').'
+                </label>
+                <br />
+
+                <p>'.__('By enabling the following option, the license image is also included in the license text block.', 'cc-configurator').'</p>
+
                 <input id="cc_body_img" type="checkbox" value="1" name="cc_body_img" '. (($cc_settings["options"]["cc_body_img"]=="1") ? 'checked="checked"' : '') .'" />
                 <label for="cc_body_img">
-                '.__('Include the license image in the text block under the content.', 'cc-configurator').'
+                '.__('Include the license image in the text block.', 'cc-configurator').'
                 </label>
                 <br />
             </fieldset>
@@ -644,33 +664,20 @@ function bccl_full_html_license($button = "default") {
 }
 
 
-function bccl_get_license_block($work = "", $css_class = "", $show_button = "default", $button = "default", $internal_use = FALSE) {
+function bccl_get_license_block($work = "", $css_class = "", $show_button = "default", $button = "default") {
     /*
     This function should not be used in template tags.
     
     $work: The work that is licensed can be defined by the user.
     
-    $internal_use:
-    DO NOT USE WHEN CALLING THE FUNCTION FROM WITHIN A TEMPLATE!!
-    This argument is used in order to also check if the user has enabled
-    the display of the license block in the plugin configuration panel.
-    
     $show_button: (default, yes, no) - no explanation (TODO possibly define icon URL)
     
     $button: The user can se the desired button (hidden feature): "0", "1", "2"
     
-    The function returns FALSE *only* when $internal_use is TRUE and if the
-    user has *not* set the option to display a license block under each post.
     */
     $cc_block = "LICENSE BLOCK ERROR";
     $cc_settings = get_option("cc_settings");
     if (!$cc_settings) { return ""; }
-    
-    if ($internal_use) {
-        if ( $cc_settings["options"]["cc_body"] != "1" ) {
-            return FALSE;
-        }
-    }
     
     // Set CSS class
     if (empty($css_class)) {
@@ -691,7 +698,7 @@ function bccl_get_license_block($work = "", $css_class = "", $show_button = "def
     }
     
     // Work analysis
-    if (!$work && is_single()) {
+    if ( empty($work) ) {
         // Proceed only if the user has not defined the work.
         if ( $cc_settings["options"]["cc_extended"] ) {
             $creator = bccl_get_the_creator($cc_settings["options"]["cc_creator"]);
@@ -701,8 +708,6 @@ function bccl_get_license_block($work = "", $css_class = "", $show_button = "def
         } else {
             $work = __('This work', 'cc-configurator');
         }
-    } elseif (!$work && !is_single()) {
-        return __('ERROR (cc-configurator): you must define the work to be licenced, if not using this template tag in single-post view.', 'cc-configurator');
     }
     $work .= sprintf(", ".__('unless otherwise expressly stated', 'cc-configurator').", ".__('is licensed under a', 'cc-configurator')." %s.", bccl_get_license_text_hyperlink());
     
@@ -777,15 +782,22 @@ function bccl_add_to_header() {
      * if it is single-post view
     */
     $cc_settings = get_option("cc_settings");
-    if (!$cc_settings) { return ""; }
+    if ( !is_singular() ) {
+        return "";
+    } elseif ( is_attachment() && ($cc_settings["options"]["cc_body_attachments"] != "1") ) {
+        return "";
+    } elseif ( is_single() && ($cc_settings["options"]["cc_body"] != "1") ) {
+        return "";
+    } elseif ( is_page() && ($cc_settings["options"]["cc_body_pages"] != "1") ) {
+        return "";
+    }
     
-    echo "\n<!-- Creative Commons License added by Creative-Commons-Configurator plugin - Get it at: http://www.g-loaded.eu/ -->\n";
-    
-    if ( $cc_settings["license_url"] && $cc_settings["options"]["cc_head"] == "1" ) {
+    if ( !empty($cc_settings["license_url"]) && $cc_settings["options"]["cc_head"] == "1" ) {
+        echo "\n<!-- Creative Commons License added by Creative-Commons-Configurator plugin for WordPress\nGet the plugin at: http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ -->\n";
         // Adds a link element with "license" relation in the web page HEAD area.
         echo "<link rel=\"license\" type=\"text/html\" href=\"" . bccl_get_license_url() . "\" />\n\n";
     }
-    if (is_single() && $cc_settings["options"]["cc_body"] == "1" && $cc_settings["options"]["cc_no_style"] != "1") {
+    if ( $cc_settings["options"]["cc_no_style"] != "1" ) {
         // Adds style for the license block
         $color = $cc_settings["options"]["cc_color"];
         $bgcolor = $cc_settings["options"]["cc_bgcolor"];
@@ -828,15 +840,23 @@ function bccl_append_to_post_body($PostBody) {
     content is performed in bccl_get_license_block(), in order not to retrieve
     the saved settings two timesor pass them between functions.
     */
-    if ( is_single() ) {
-        $cc_block = bccl_get_license_block("", "", "default", "default", TRUE);
-        if ( $cc_block ) {
-            $PostBody .= bccl_add_placeholders($cc_block);
-        }
+    $cc_settings = get_option("cc_settings");
+    if ( !is_singular() ) { // Possibly not necessary
+        return $PostBody;
+    } elseif ( is_attachment() && ($cc_settings["options"]["cc_body_attachments"] != "1") ) {
+        return $PostBody;
+    } elseif ( is_single() && ($cc_settings["options"]["cc_body"] != "1") ) {
+        return $PostBody;
+    } elseif ( is_page() && ($cc_settings["options"]["cc_body_pages"] != "1") ) {
+        return $PostBody;
+    }
+    // Append the license block to the content
+    $cc_block = bccl_get_license_block("", "", "default", "default");
+    if ( $cc_block ) {
+        $PostBody .= bccl_add_placeholders($cc_block);
     }
     return $PostBody;
 }
-
 
 // ACTION
 
