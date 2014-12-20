@@ -3,8 +3,8 @@ Contributors: gnotaras
 Donate link: http://bit.ly/1aoPaow
 Tags: cc, cc0, license, public domain, metadata, legal, creative, commons, seo, attribution, copyright, cc license, creative commons, cc zero, rights, copyright
 Requires at least: 2.7
-Tested up to: 3.7.1
-Stable tag: 1.5.2
+Tested up to: 4.2
+Stable tag: 1.5.3
 License: Apache License v2
 License URI: http://www.apache.org/licenses/LICENSE-2.0.txt
 
@@ -128,7 +128,7 @@ function append_copyright_notice_to_cc_text( $license_text ) {
     $extra_text = '<br />Copyright &copy; ' . get_the_date('Y') . ' - Some Rights Reserved';
     return $license_text . $extra_text;
 }
-add_filter( 'bccl_cc_license_text', 'append_copyright_notice_to_cc_block', 10, 1 );
+add_filter( 'bccl_cc_license_text', 'append_copyright_notice_to_cc_text', 10, 1 );
 `
 This code can be placed inside your theme's `functions.php` file.
 
@@ -179,6 +179,8 @@ You can find the bug tracker at the [Creative-Commons-Configurator Development w
 
 In the following list there are links to the changelog of each release:
 
+- [1.5.3](http://www.codetrax.org/versions/195)
+ - Updated translations.
 - [1.5.2](http://www.codetrax.org/versions/200)
  - Updated translations (thanks: Jani Uusitalo, bzg, Matthias Heil, alvaroto, bizover)
 - [1.5.1](http://www.codetrax.org/versions/133)
