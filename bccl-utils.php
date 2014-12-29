@@ -108,10 +108,130 @@ function bccl_get_the_creator($what) {
 function bccl_add_placeholders($data, $what = "html") {
     if (!(trim($data))) { return ""; }
     if ($what = "html") {
-        return sprintf( PHP_EOL . "<!-- Creative Commons License -->" . PHP_EOL . "%s" . PHP_EOL . "<!-- /Creative Commons License -->" . PHP_EOL , trim($data) );
+        return sprintf( PHP_EOL . "<!-- BEGIN License added by Creative-Commons-Configurator plugin for WordPress -->" . PHP_EOL . "%s" . PHP_EOL . "<!-- END License added by Creative-Commons-Configurator plugin for WordPress -->" . PHP_EOL , trim($data) );
     } else {
         return sprintf( PHP_EOL . "<!--" . PHP_EOL . "%s" . PHP_EOL . "-->" . PHP_EOL, trim($data) );
     }
 }
 
+
+function bccl_get_dcmitype( $post ) {
+
+    if ( is_attachment() ) {
+        $mime_type = get_post_mime_type( $post->ID );
+        //$attachment_type = strstr( $mime_type, '/', true );
+        // See why we do not use strstr(): http://www.codetrax.org/issues/1091
+        $attachment_type = preg_replace( '#\/[^\/]*$#', '', $mime_type );
+
+        if ( 'image' == $attachment_type ) {
+            return 'StillImage';
+        } elseif ( 'video' == $attachment_type ) {
+            return 'MovingImage';
+        } elseif ( 'audio' == $attachment_type ) {
+            return 'Sound';
+        }
+
+    } elseif ( is_singular() ) {
+    
+        $format = get_post_format( $post->id );
+
+        if ($format=="gallery") {
+            return 'StillImage';
+        } elseif ($format=="image") {
+            return 'StillImage';
+        } elseif ($format=="video") {
+            return 'MovingImage';
+        } elseif ($format=="audio") {
+            return 'Sound';
+        }
+    }
+    return 'Text';
+}
+
+
+function bccl_get_content_license_slug( $post, $options ) {
+    $bccl_license_value = get_post_meta( $post->ID, '_bccl_license', true );
+    if ( empty( $bccl_license_value ) ) {
+        // Set to default
+        $bccl_license_value = $options['cc_default_license'];
+        // Allow filtering of the default license
+        $bccl_license_value = apply_filters( 'bccl_default_license', $bccl_license_value ); // String: License slug (see bccl-licenses.php)
+    }
+    return $bccl_license_value;
+}
+
+
+function bccl_get_extra_perms_url( $post, $options ) {
+    $bccl_perm_url_value = get_post_meta( $post->ID, '_bccl_perm_url', true );
+    if ( empty( $bccl_perm_url_value ) ) {
+        // Set to default
+        $bccl_perm_url_value = $options['cc_perm_url'];
+    }
+    return $bccl_perm_url_value;
+}
+
+function bccl_get_extra_perms_title( $post, $options ) {
+    $bccl_perm_title_value = get_post_meta( $post->ID, '_bccl_perm_title', true );
+    if ( empty( $bccl_perm_title_value ) ) {
+        // Set to default
+        $bccl_perm_title_value = $options['cc_perm_title'];
+    }
+    return $bccl_perm_title_value;
+}
+
+
+function bccl_get_work_hyperlink( $post ) {
+    $work_title = get_the_title($post->ID);
+    $work_permalink = get_permalink($post->ID);
+    $work_type = bccl_get_dcmitype($post);
+    $work_title_hyperlink = sprintf('<a href="%s" title="Permalink to %s"><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/%s" property="dct:title" rel="dct:type">%s</span></a>', $work_permalink, $work_title, $work_type, $work_title );
+    return $work_title_hyperlink;
+}
+
+function bccl_get_creator_hyperlink( $post, $creator_format ) {
+    $author_url = get_author_posts_url( get_the_author_meta( 'ID', $post->post_author ) );
+    $author_name = bccl_get_the_creator( $creator_format );
+    $creator_hyperlink = sprintf('<a xmlns:cc="http://creativecommons.org/ns#" href="%s" property="cc:attributionName" rel="cc:attributionURL">%s</a>', $author_url, $author_name);
+    return $creator_hyperlink;
+}
+
+
+// License Image Hyperlink Generator
+function bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, $options ) {
+
+    if ( $options['cc_body_img'] != "1" ) {
+        return;
+    }
+
+    // Image URL
+    $license_image_url = $license_data['button_url'];
+    if ( $options['cc_compact_img'] == "1" ) {
+        $license_image_url = $license_data['button_compact_url'];
+    }
+    if ( empty($license_image_url) ) {
+        return;
+    }
+    // Construct absolute image URL
+    $license_image_url = plugins_url( 'media/' . $license_image_url, __FILE__ );
+    // Use correct protocol for image URL
+    if (is_ssl()) {
+        $license_image_url = str_replace('http://', 'https://', $license_image_url);
+    }
+    // Or make the link protocol agnostic
+    $license_image_url = preg_replace( '#^https?:#i', '', $license_image_url);
+    // Allow filtering of the image URL
+    $license_image_url = apply_filters( 'bccl_cc_license_image_url', $license_image_url );
+
+    // Other License Data
+    $license_name = $license_data['name_short'];
+    $license_url = $license_data['url'];
+
+    // Construct hyperlink
+    // style="border-width:0" attribute is not used. class="cc-button" is used instead.
+    if ( empty($license_url) ) {
+        return sprintf('<img alt="%s" class="cc-button" src="%s" />', $license_name, $license_image_url);
+    } else {
+        return sprintf('<a rel="license" href="%s"><img alt="%s" class="cc-button" src="%s" /></a>', $license_url, $license_name, $license_image_url);
+    }
+}
 

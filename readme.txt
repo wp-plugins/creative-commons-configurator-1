@@ -4,33 +4,31 @@ Donate link: http://bit.ly/1aoPaow
 Tags: cc, cc0, license, public domain, metadata, legal, creative, commons, seo, attribution, copyright, cc license, creative commons, cc zero, rights, copyright
 Requires at least: 2.7
 Tested up to: 4.2
-Stable tag: 1.5.3
+Stable tag: 1.8.0
 License: Apache License v2
 License URI: http://www.apache.org/licenses/LICENSE-2.0.txt
 
 
-Adds Creative Commons license information to your posts, pages, attachment pages and feeds. Fully customizable.
+Helps you publish your content under the terms of Creative Commons and other licenses. Fully customizable.
 
 
 == Description ==
 
 [Creative-Commons-Configurator](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official Creative-Commons-Configurator Homepage") is the only tool a user will ever need in order to set a [Creative Commons License](http://creativecommons.org/) on a WordPress blog and control the inclusion or display of the license information and relevant metadata into the blog pages or the syndication feeds. All configuration is done via a page in the administration panel.
 
-By default, the license you have chosen in the License settings is automatically appended to all content, unless otherwise specified in the settings. Since the 1.5.1 release, it is possible to customize the license metadata on a per post basis from the *License* box in the post editing panel:
+By default, the license you have chosen in the License settings is automatically appended to all content, unless otherwise specified in the settings. Since the 1.8.0 release, it is possible to customize the license metadata on a per post basis from the *License* box in the post editing screen. The following licenses are supported:
 
-- You can stop license metadata from appearing on individual posts.
-- Although not recommended, you can use the *All Rights Reserved* clause on specific posts.
-- It is possible to waive all rights from a post and publish it in the Public Domain by choosing the <a href="http://creativecommons.org/about/cc0">CC0</a> rights waiver.
+- All Creative Commons 4.0 licenses.
+- The <a href="http://creativecommons.org/about/cc0">CC0</a> rights waiver by Creative Commons.
+- Although not a license and not recommended, the *All Rights Reserved* clause.
 
 Template tags and filters are also available for those who need extra customization.
 
 Features at a glance:
 
-- Configuration page in the WordPress administration panel. No manual editing of files is needed for basic usage.
-- Per post settings (use default license, no license, fll back to *All Rights Reserved*, *No Rights Reserved* via *CC0*).
-- A widget is available to add to your sidebars.
-- License selection by using the web-based license selection API from CreativeCommons.org.
-- The license information can be reset at any time without affecting current license customization settings.
+- Configuration page in the WordPress administration panel.
+- Custom license on a per post basis.
+- A license widget is available to add to your sidebars.
 - Adds license information to:
  - The HTML head area (Not visible to human visitors).
  - The Atom, RSS 2.0 and RDF (RSS 1.0) feeds through the Creative Commons RSS module, which validates properly. This option is compatible only with WordPress 2 or newer due to technical reasons.
@@ -75,37 +73,9 @@ This plugin provides some *Template Tags*, which can be used in your theme templ
 
 **NOTE**: Template tags will be revised in upcoming versions.
 
-Text Hyperlink
-
-- `bccl_get_license_text_hyperlink()` - Returns the text hyperlink of your current license for use in the PHP code.
-- `bccl_license_text_hyperlink()` - Displays the text hyperlink.
-
-Image Hyperlink
-
-- `bccl_get_license_image_hyperlink()` - Returns the image hyperlink of the current license.
-- `bccl_license_image_hyperlink()` - Displays the image hyperlink of the current license.
-
-License URIs
-
-- `bccl_get_license_url()` - Returns the license's URL.
-- `bccl_get_license_deed_url()` - Returns the license's Deed URL. Usually this is the same URI as returned by the bccl_get_license_url() function.
-
-Full HTML Code
-
-- `bccl_get_full_html_license()` - Returns the full HTML code of the license. This includes the text and the image hyperlinks.
-- `bccl_full_html_license()` - Displays the full HTML code of the license. This includes the text and the image hyperlinks.
-
-Complete License Block
-
-- `bccl_license_block($work, $css_class, $show_button)` - Displays a complete license block. This template tag can be used to publish specific original work under the current license or in order to display the license block at custom locations on your website. This function supports the following arguments:
- 1. `$work` (alphanumeric): This argument is used to define the work to be licensed. Its use is optional, when the template tag is used in single-post view. If not defined, the user-defined settings for the default license block are used.
- 1. `$css_class` (alphanumeric): This argument sets the name of the CSS class that will be used to format the license block. It is optional. If not defined, then the default class <em>cc-block</em> is used.
- 1. `$show_button` (one of: "default", "yes", "no"): This argument is optional. It can be used in order to control the appearance of the license icon.
+TODO
 
 Licence Documents
-
-- `bccl_license_summary($width, $height, $css_class)` - Displays the license's summary document in an <em>iframe</em>.
-- `bccl_license_legalcode($width, $height, $css_class)` - Displays the license's full legal code in an <em>iframe</em>.
 
 
 = Advanced Customization =
@@ -118,6 +88,23 @@ The available filters are:
 1. `bccl_cc0_license_text` - applied to the text that is generated for the CC0 rights waiver. The hooked function should accept and return 1 argument: a string.
 1. `bccl_arr_license_text` - applied to the text that is generated for All Rights Reserved clause. The hooked function should accept and return 1 argument: a string.
 1. `bccl_widget_html` - applied to the HTML code that is generated for the widget. The hooked function should accept and return 1 argument: a string.
+1. `widget_title` - applied to the title of the license widget. The hooked function should accept and return 1 argument: a string.
+1. `bccl_license_metabox_permission` - applied to the metabox permission. The hooked function should accept and return 1 argument: a string. By default, the `edit_posts` is used.
+1. `bccl_licenses` - applied to the array of the supported licenses. The hooked function should accept and return 1 argument: an array of licenses (see `bccl-licenses.php` for details).
+1. `bccl_default_license` - applied to the license slug that will be used for the current post. The hooked function should accept and return 1 argument: a string (see `bccl-licenses.php` for details).
+1. `bccl_supported_post_types` - applied to the array of the supported post types. The hooked function should accept and return 1 argument: an array of post types.
+1. `bccl_arr_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_arr_extra_permissions_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_arr_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_arr_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc0_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc0_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc0_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc_license_image_url` - applied to the URL of the image of the used license. The hooked function should accept and return 1 argument: a URL.
+
 
 **Example 1**: you want to append a copyright notice to the CC license text.
 
@@ -179,6 +166,10 @@ You can find the bug tracker at the [Creative-Commons-Configurator Development w
 
 In the following list there are links to the changelog of each release:
 
+- [1.8.0](http://www.codetrax.org/versions/239)
+ - IMPORTANT: Major changes in functionality. Backwards incompatible default license. Reset the default license.
+ - Hard coded licenses instead of online license selectors.
+ - Full customization via filters.
 - [1.5.3](http://www.codetrax.org/versions/195)
  - Updated translations.
 - [1.5.2](http://www.codetrax.org/versions/200)

@@ -11,20 +11,19 @@
  */
 function bccl_get_default_options() {
     return array(
-        "settings_version"  => 2,       // IMPORTANT: SETTINGS UPGRADE: Every time settings are added or removed this has to be incremented for auto upgrade of settings.
-        "license_url"       => "",
-        "license_name"      => "",
-        "license_button"    => "",
-        "deed_url"          => "",
+        "settings_version"  => 3,       // IMPORTANT: SETTINGS UPGRADE: Every time settings are added or removed this has to be incremented for auto upgrade of settings.
+        "cc_default_license"   => "arr",
         "cc_head"       => "0",
         "cc_feed"       => "0",
-        "cc_body"       => "0",
-        "cc_body_pages" => "0",
-        "cc_body_attachments"   => "0",
-        "cc_body_img"   => "0",
+        "cc_body"       => "0",     // Add license information under posts and custom post types.
+        "cc_body_pages" => "0",     // Add license information under pages.
+        "cc_body_attachments"   => "0", // Add license information under attachment pages.
+        "cc_body_img"   => "0",     // Show license image
+        "cc_compact_img"   => "0",     // Show compact license image
         "cc_extended"   => "0",
         "cc_creator"    => "blogname",
         "cc_perm_url"   => "",
+        "cc_perm_title" => "",
         "cc_color"      => "#000000",
         "cc_bgcolor"    => "#eef6e6",
         "cc_brdr_color" => "#cccccc",
@@ -94,8 +93,15 @@ function bccl_plugin_upgrade() {
         unset( $stored_options['options'] );
     }
     
-    // Version X.X.X (settings_version N->N)
-    // Add other migration here
+    // Version 1.8.0 (settings_version 2->3)
+    // Removed setting "license_url"
+    // Removed setting "license_name"
+    // Removed setting "license_button"
+    // Removed setting "deed_url"
+    // Added setting "cc_default_license"
+    // Added setting "cc_compact_img"
+    // Added setting "cc_perm_title"
+    // No migration required.
 
     // 3) Clean stored options.
     foreach ($stored_options as $opt => $value) {
@@ -115,23 +121,6 @@ function bccl_plugin_upgrade() {
 
 
 /**
- * Returns an array containing only those settings related to the license.
- * SHOULD ONLY BE CALLED AFTER A LICENSE HAS BEEN SET
- */
-function bccl_get_base_license_settings() {
-    $license_options = array();
-    $stored_options = get_option('cc_settings');
-    if ( ! empty($stored_options) ) {
-        $license_options['license_url'] = $stored_options['license_url'];
-        $license_options['license_name'] = $stored_options['license_name'];
-        $license_options['license_button'] = $stored_options['license_button'];
-        $license_options['deed_url'] = $stored_options['deed_url'];
-    }
-    return $license_options;
-}
-
-
-/**
  * Saves the new settings in the database.
  * Accepts the POST request data.
  */
@@ -140,13 +129,7 @@ function bccl_save_settings($post_payload) {
     // Default CC-Configurator Settings
     $default_options = bccl_get_default_options();
 
-    // Construct the new settings array
-    // Initial settings include only the license related settings, which
-    // should have been stored during the initial license selection.
-    // This happens because these settings are not passed from the form of
-    // admin panel when saving the option, so they do not exist in the $post_payload.
-    // They are only set in the 'new license' selection dialog.
-    $cc_settings = bccl_get_base_license_settings();
+    $cc_settings = array();
 
     // First add the already stored license info
 
@@ -161,7 +144,7 @@ function bccl_save_settings($post_payload) {
         elseif ( array_key_exists($def_key, $post_payload) ) {
 
             // Validate and sanitize input before adding to 'cc_settings'
-            if ( in_array( $def_key, array( 'license_url', 'license_button', 'deed_url', 'cc_perm_url' ) ) ) {
+            if ( in_array( $def_key, array( 'cc_perm_url' ) ) ) {
                 $cc_settings[$def_key] = esc_url_raw( stripslashes( $post_payload[$def_key] ), array( 'http', 'https') );
             } else {
                 $cc_settings[$def_key] = sanitize_text_field( stripslashes( $post_payload[$def_key] ) );
@@ -172,23 +155,18 @@ function bccl_save_settings($post_payload) {
         // those checkbox settings whose default value is 1.
         else {
 
-            // We exclude the license related settings from this check.
-            // These do not exist in the $post_payload when settings are saved
-            if ( ! in_array( $def_key, array( 'license_url', 'license_name', 'license_button', 'deed_url' ) ) ) {
-
-                // The following settings have a default value of 1, so they can never be
-                // deactivated, unless the following check takes place.
-                if (
-                    $def_key == 'SOME_CHECKBOX_WITH_DEFAULT_VALUE_1' ||
-                    $def_key == 'SOME_OTHER_CHECKBOX_WITH_DEFAULT_VALUE_1'
-                ) {
-                    if( ! isset($post_payload[$def_key]) ){
-                        $cc_settings[$def_key] = "0";
-                    }
-                } else {
-                    // Else save the default value in the db.
-                    $cc_settings[$def_key] = $def_value;
+            // The following settings have a default value of 1, so they can never be
+            // deactivated, unless the following check takes place.
+            if (
+                $def_key == 'SOME_CHECKBOX_WITH_DEFAULT_VALUE_1' ||
+                $def_key == 'SOME_OTHER_CHECKBOX_WITH_DEFAULT_VALUE_1'
+            ) {
+                if( ! isset($post_payload[$def_key]) ){
+                    $cc_settings[$def_key] = "0";
                 }
+            } else {
+                // Else save the default value in the db.
+                $cc_settings[$def_key] = $def_value;
             }
         }
     }
@@ -199,72 +177,23 @@ function bccl_save_settings($post_payload) {
     //var_dump($post_payload);
     //var_dump($cc_settings);
 
-    bccl_show_info_msg(__('CC-Configurator options saved', 'cc-configurator'));
+    bccl_show_info_msg(__('Creative-Commons-Configurator options saved', 'cc-configurator'));
 }
 
-
-/**
- * Set new license.
- * Saves the new license settings to database.
- */
-function bccl_set_new_license_settings( $query_args ) {
-
-    // Get the current CC-Configurator options from the database
-    $cc_settings = get_option('cc_settings');
-
-    // Replace the base CC license settings
-    $cc_settings['license_url'] = esc_url_raw( rawurldecode( stripslashes( $query_args['license_url'] ) ), array( 'http', 'https' ) );
-    $cc_settings['license_name'] = sanitize_text_field( stripslashes( $query_args['license_name'] ) );
-    $cc_settings['license_button'] = esc_url_raw( rawurldecode( stripslashes( $query_args['license_button'] ) ), array( 'http', 'https' ) );
-    $cc_settings['deed_url'] = esc_url_raw( rawurldecode( stripslashes( $query_args['deed_url'] ) ), array( 'http', 'https' ) );
-    
-    update_option('cc_settings', $cc_settings);
-    bccl_show_info_msg(__('Creative Commons license saved.', 'cc-configurator'));
-}
 
 
 /**
  * Reset settings to the defaults.
  *
- * This function does not affect the license related settings:
- * license_url, license_name, license_button, deed_url
- *
- * Resets all other settings (which are available in the settings form) to
+ * Resets all settings (which are available in the settings form) to
  * their default values.
  */
 function bccl_reset_settings() {
     // Default CC-Configurator Settings
     $default_options = bccl_get_default_options();
-    // Array with only the license settings, which are not saved with "Save Settings"
-    $license_settings = bccl_get_base_license_settings();
-
-    $cc_settings = array_merge( $default_options, $license_settings );
 
     delete_option('cc_settings');
-    update_option('cc_settings', $cc_settings);
-    bccl_show_info_msg(__('CC-Configurator options were reset to defaults', 'cc-configurator'));
-}
-
-
-/**
- * Reset license settings.
- *
- * This function sets the license_url, license_name, license_button, deed_url
- * to empty strings.
- */
-function bccl_reset_license_settings() {
-
-    // Get the current CC-Configurator options from the database
-    $cc_settings = get_option('cc_settings');
-
-    // Reset license settings
-    $cc_settings['license_url'] = '';
-    $cc_settings['license_name'] = '';
-    $cc_settings['license_button'] = '';
-    $cc_settings['deed_url'] = '';
-
-    delete_option('cc_settings');
-    update_option('cc_settings', $cc_settings);
-    bccl_show_info_msg(__('CC-Configurator license has been removed.', 'cc-configurator'));
+    update_option('cc_settings', $default_options);
+    bccl_show_info_msg(__('Creative-Commons-Configurator options were reset to defaults', 'cc-configurator'));
 }
 
