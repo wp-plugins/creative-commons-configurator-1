@@ -28,7 +28,6 @@ function bccl_arr_generator( $license_slug, $license_data, $post, $options, $min
 
     if ( $minimal === false ) {
         $cc_block = array();
-        $cc_block[] = '<p class="cc-block">';
         // License
         $cc_block[] = $license_text;
         // Extra perms
@@ -36,11 +35,10 @@ function bccl_arr_generator( $license_slug, $license_data, $post, $options, $min
             $cc_block[] = '<br />';
             $cc_block[] = $extra_perms_text;
         }
-        $cc_block[] = '</p>';
 
         $full_license_block = implode(PHP_EOL, $cc_block);
         $full_license_block = apply_filters( 'bccl_arr_full_license_block', $full_license_block );
-        return $full_license_block;
+        return '<p class="cc-block">' . $full_license_block . '</p>';
 
     } else {    // $minimal === true
         // Construct HTML block
@@ -78,7 +76,6 @@ function bccl_cc0_generator( $license_slug, $license_data, $post, $options, $min
     // Construct HTML block
     if ( $minimal === false ) {
         $cc_block = array();
-        $cc_block[] = '<p class="cc-block">';
         // License Button
         if ( ! empty($license_button_hyperlink) ) {
             $cc_block[] = $license_button_hyperlink;
@@ -86,11 +83,10 @@ function bccl_cc0_generator( $license_slug, $license_data, $post, $options, $min
         }
         // License
         $cc_block[] = $license_text;
-        $cc_block[] = '</p>';
 
         $full_license_block = implode(PHP_EOL, $cc_block);
         $full_license_block = apply_filters( 'bccl_cc0_full_license_block', $full_license_block );
-        return $full_license_block;
+        return '<p class="cc-block">' . $full_license_block . '</p>';
 
     } else {    // $minimal === true
         // Construct HTML block
@@ -148,7 +144,6 @@ function bccl_cc_generator( $license_slug, $license_data, $post, $options, $mini
     if ( $minimal === false ) {
 
         $cc_block = array();
-        $cc_block[] = '<p class="cc-block">';
         // License Button
         if ( ! empty($license_button_hyperlink) ) {
             $cc_block[] = $license_button_hyperlink;
@@ -158,7 +153,7 @@ function bccl_cc_generator( $license_slug, $license_data, $post, $options, $mini
         $cc_block[] = $license_text;
         // Extra perms
         if ( ! empty($extra_perms_text) ) {
-            $cc_block[] = '<br />';
+            //$cc_block[] = '<br />';
             $cc_block[] = $extra_perms_text;
         }
         // Source Work
@@ -166,12 +161,11 @@ function bccl_cc_generator( $license_slug, $license_data, $post, $options, $mini
         //    $cc_block[] = '<br />';
         //    $cc_block[] = $source_work_html;
         //}
-        $cc_block[] = '</p>';
 
         // $pre_text = 'Copyright &copy; ' . get_the_date('Y') . ' - Some Rights Reserved' . '<br />';
         $full_license_block = implode(PHP_EOL, $cc_block);
         $full_license_block = apply_filters( 'bccl_cc_full_license_block', $full_license_block );
-        return $full_license_block;
+        return '<p class="cc-block">' . $full_license_block . '</p>';
 
     } else {    // $minimal === true
         // Construct HTML block
