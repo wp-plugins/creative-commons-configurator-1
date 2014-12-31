@@ -19,8 +19,9 @@ function bccl_arr_generator( $license_slug, $license_data, $post, $options, $min
             $extra_perms_title = $extra_perms_url;
         }
         $extra_perms_hyperlink = sprintf('<a href="%s">%s</a>', $extra_perms_url, $extra_perms_title);
-        $extra_perms_text = sprintf(__('Information about how to reuse or republish this work may be available at %s.', 'cc-configurator'), $extra_perms_hyperlink);
-        $extra_perms_text = apply_filters( 'bccl_arr_extra_permissions_text', $extra_perms_text );
+        $extra_perms_template = __('Information about how to reuse or republish this work may be available at %s.', 'cc-configurator');
+        $extra_perms_template = apply_filters( 'bccl_arr_extra_permissions_template', $extra_perms_template );
+        $extra_perms_text = sprintf($extra_perms_template, $extra_perms_hyperlink);
         // Alt text: Terms and conditions beyond the scope of this license may be available at %s.
     }
 
@@ -136,7 +137,9 @@ function bccl_cc_generator( $license_slug, $license_data, $post, $options, $mini
             $extra_perms_title = $extra_perms_url;
         }
         $extra_perms_hyperlink = sprintf('<a xmlns:cc="http://creativecommons.org/ns#" href="%s" rel="cc:morePermissions">%s</a>', $extra_perms_url, $extra_perms_title);
-        $extra_perms_text = sprintf(__('Permissions beyond the scope of this license may be available at %s.', 'cc-configurator'), $extra_perms_hyperlink);
+        $extra_perms_template = __('Permissions beyond the scope of this license may be available at %s.', 'cc-configurator');
+        $extra_perms_template = apply_filters( 'bccl_cc_extra_permissions_template', $extra_perms_template );
+        $extra_perms_text = sprintf($extra_perms_template, $extra_perms_hyperlink);
         // Alt text: Terms and conditions beyond the scope of this license may be available at %s.
     }
 
