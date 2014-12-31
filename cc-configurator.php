@@ -3,7 +3,7 @@
 Plugin Name: Creative Commons Configurator
 Plugin URI: http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/
 Description: Helps you publish your content under the terms of Creative Commons and other licenses.
-Version: 1.8.2
+Version: 1.8.3
 Author: George Notaras
 Author URI: http://www.g-loaded.eu/
 License: Apache License v2
@@ -27,18 +27,24 @@ Domain Path: /languages/
  *  limitations under the License.
  */
 
+// Prevent direct access to this file.
+if ( ! defined( 'ABSPATH' ) ) {
+    header( 'HTTP/1.0 403 Forbidden' );
+    echo 'This file should not be accessed directly!';
+    exit; // Exit if accessed directly
+}
 
 // Store plugin directory
-define('BCCL_DIR', dirname(__FILE__));
+define( 'BCCL_DIR', plugin_dir_path( __FILE__ ) );
 
 // Import modules
-require_once( join( DIRECTORY_SEPARATOR, array( BCCL_DIR, 'bccl-settings.php' ) ) );
-require_once( join( DIRECTORY_SEPARATOR, array( BCCL_DIR, 'bccl-admin-panel.php' ) ) );
-require_once( join( DIRECTORY_SEPARATOR, array( BCCL_DIR, 'bccl-template-tags.php' ) ) );
-require_once( join( DIRECTORY_SEPARATOR, array( BCCL_DIR, 'bccl-utils.php' ) ) );
-require_once( join( DIRECTORY_SEPARATOR, array( BCCL_DIR, 'bccl-licenses.php' ) ) );
-require_once( join( DIRECTORY_SEPARATOR, array( BCCL_DIR, 'bccl-generators.php' ) ) );
-require_once( join( DIRECTORY_SEPARATOR, array( BCCL_DIR, 'bccl-deprecated.php' ) ) );
+require_once( BCCL_DIR . 'bccl-settings.php' );
+require_once( BCCL_DIR . 'bccl-admin-panel.php' );
+require_once( BCCL_DIR . 'bccl-template-tags.php' );
+require_once( BCCL_DIR . 'bccl-utils.php' );
+require_once( BCCL_DIR . 'bccl-licenses.php' );
+require_once( BCCL_DIR . 'bccl-generators.php' );
+require_once( BCCL_DIR . 'bccl-deprecated.php' );
 
 
 /*

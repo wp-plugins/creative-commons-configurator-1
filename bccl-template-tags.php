@@ -1,5 +1,13 @@
 <?php
 
+// Prevent direct access to this file.
+if ( ! defined( 'ABSPATH' ) ) {
+    header( 'HTTP/1.0 403 Forbidden' );
+    echo 'This file should not be accessed directly!';
+    exit; // Exit if accessed directly
+}
+
+
 /*
 $work: The work that is licensed can be defined by the user.
 $css_class : The user can define the CSS class that will be used to

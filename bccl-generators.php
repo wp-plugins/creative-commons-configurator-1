@@ -3,6 +3,14 @@
  *  Contains generator functions providing the full text of each license.
  */
 
+// Prevent direct access to this file.
+if ( ! defined( 'ABSPATH' ) ) {
+    header( 'HTTP/1.0 403 Forbidden' );
+    echo 'This file should not be accessed directly!';
+    exit; // Exit if accessed directly
+}
+
+
 // ARR Generator
 function bccl_arr_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
 
