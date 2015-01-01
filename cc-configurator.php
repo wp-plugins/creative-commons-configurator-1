@@ -3,7 +3,7 @@
 Plugin Name: Creative Commons Configurator
 Plugin URI: http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/
 Description: Helps you publish your content under the terms of Creative Commons and other licenses.
-Version: 1.8.3
+Version: 1.8.4
 Author: George Notaras
 Author URI: http://www.g-loaded.eu/
 License: Apache License v2
@@ -35,16 +35,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Store plugin directory
-define( 'BCCL_DIR', plugin_dir_path( __FILE__ ) );
+define( 'BCCL_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+// Store plugin directory
+define( 'BCCL_PLUGIN_FILE', __FILE__ );
 
 // Import modules
-require_once( BCCL_DIR . 'bccl-settings.php' );
-require_once( BCCL_DIR . 'bccl-admin-panel.php' );
-require_once( BCCL_DIR . 'bccl-template-tags.php' );
-require_once( BCCL_DIR . 'bccl-utils.php' );
-require_once( BCCL_DIR . 'bccl-licenses.php' );
-require_once( BCCL_DIR . 'bccl-generators.php' );
-require_once( BCCL_DIR . 'bccl-deprecated.php' );
+require_once( BCCL_PLUGIN_DIR . 'bccl-settings.php' );
+require_once( BCCL_PLUGIN_DIR . 'bccl-admin-panel.php' );
+require_once( BCCL_PLUGIN_DIR . 'bccl-template-tags.php' );
+require_once( BCCL_PLUGIN_DIR . 'bccl-utils.php' );
+require_once( BCCL_PLUGIN_DIR . 'bccl-licenses.php' );
+require_once( BCCL_PLUGIN_DIR . 'bccl-generators.php' );
+require_once( BCCL_PLUGIN_DIR . 'bccl-deprecated.php' );
 
 
 /*
@@ -52,15 +54,14 @@ require_once( BCCL_DIR . 'bccl-deprecated.php' );
  *
  * Translation files are searched in: wp-content/plugins
  */
-load_plugin_textdomain('cc-configurator', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
+load_plugin_textdomain('cc-configurator', false, dirname( plugin_basename( BCCL_PLUGIN_FILE ) ) . '/languages/');
 
 
 /**
  * Settings Link in the ``Installed Plugins`` page
  */
 function bccl_plugin_actions( $links, $file ) {
-    // if( $file == 'creative-commons-configurator-1/cc-configurator.php' && function_exists( "admin_url" ) ) {
-    if( $file == plugin_basename(__FILE__) && function_exists( "admin_url" ) ) {
+    if( $file == plugin_basename( BCCL_PLUGIN_FILE ) && function_exists( "admin_url" ) ) {
         $settings_link = '<a href="' . admin_url( 'options-general.php?page=cc-configurator-options' ) . '">' . __('Settings') . '</a>';
         // Add the settings link before other links
         array_unshift( $links, $settings_link );
@@ -68,7 +69,7 @@ function bccl_plugin_actions( $links, $file ) {
     return $links;
 }
 add_filter( 'plugin_action_links', 'bccl_plugin_actions', 10, 2 );
-
+// ALT: add_filter( 'plugin_action_links_'.plugin_basename( plugin_dir_path( BCCL_PLUGIN_FILE ) . 'plugin.php'), 'admin_plugin_settings_link' );
 
 
 /**

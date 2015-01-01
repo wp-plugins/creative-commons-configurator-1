@@ -34,9 +34,9 @@ function bccl_admin_init() {
     // Register scripts and styles
 
     /* Register our script for the color picker. */
-    wp_register_script( 'wp-color-picker-script', plugins_url( 'js/color-picker-script.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
+    wp_register_script( 'wp-color-picker-script', plugins_url( 'js/color-picker-script.js', BCCL_PLUGIN_FILE ), array( 'wp-color-picker' ), false, true );
     /* Register our stylesheet. */
-    // wp_register_style( 'myPluginStylesheet', plugins_url('stylesheet.css', __FILE__) );
+    // wp_register_style( 'myPluginStylesheet', plugins_url('stylesheet.css', BCCL_PLUGIN_FILE) );
 
 }
 add_action( 'admin_init', 'bccl_admin_init' );
@@ -588,11 +588,11 @@ function bccl_license_box_css_js () {
 //    wp_enqueue_script('jquery-ui-widget');
 //    wp_enqueue_script('jquery-ui-tabs');
 
-    //wp_register_style( 'bccl-jquery-ui-core', plugins_url('css/jquery.ui.core.css', __FILE__) );
+    //wp_register_style( 'bccl-jquery-ui-core', plugins_url('css/jquery.ui.core.css', BCCL_PLUGIN_FILE) );
     //wp_enqueue_style( 'bccl-jquery-ui-core' );
-    //wp_register_style( 'bccl-jquery-ui-tabs', plugins_url('css/jquery.ui.tabs.css', __FILE__) );
+    //wp_register_style( 'bccl-jquery-ui-tabs', plugins_url('css/jquery.ui.tabs.css', BCCL_PLUGIN_FILE) );
     //wp_enqueue_style( 'bccl-jquery-ui-tabs' );
-//    wp_register_style( 'bccl-metabox-tabs', plugins_url('css/bccl-metabox-tabs.css', __FILE__) );
+//    wp_register_style( 'bccl-metabox-tabs', plugins_url('css/bccl-metabox-tabs.css', BCCL_PLUGIN_FILE) );
 //    wp_enqueue_style( 'bccl-metabox-tabs' );
 
 }
@@ -622,7 +622,7 @@ function bccl_metabox_script_caller() {
 function bccl_inner_license_box( $post ) {
 
     // Use a nonce field for verification
-    wp_nonce_field( plugin_basename( __FILE__ ), 'bccl_noncename' );
+    wp_nonce_field( plugin_basename( BCCL_PLUGIN_FILE ), 'bccl_noncename' );
 
     // Get the post type. Will be used to customize the displayed notes.
     $post_type = get_post_type( $post->ID );
@@ -730,7 +730,7 @@ function bccl_save_postdata( $post_id, $post ) {
     /* Verify the nonce before proceeding. */
     // Verify this came from the our screen and with proper authorization,
     // because save_post can be triggered at other times
-    if ( !isset($_POST['bccl_noncename']) || !wp_verify_nonce( $_POST['bccl_noncename'], plugin_basename( __FILE__ ) ) )
+    if ( !isset($_POST['bccl_noncename']) || !wp_verify_nonce( $_POST['bccl_noncename'], plugin_basename( BCCL_PLUGIN_FILE ) ) )
         return;
 
     // Get the Global License metabox permission (filtered)

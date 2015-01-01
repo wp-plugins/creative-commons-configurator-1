@@ -218,7 +218,7 @@ function bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, 
         return;
     }
     // Construct absolute image URL
-    $license_image_url = plugins_url( 'media/' . $license_image_url, __FILE__ );
+    $license_image_url = plugins_url( 'media/' . $license_image_url, BCCL_PLUGIN_FILE );
     // Use correct protocol for image URL
     if (is_ssl()) {
         $license_image_url = str_replace('http://', 'https://', $license_image_url);

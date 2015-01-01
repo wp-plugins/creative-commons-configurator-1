@@ -185,3 +185,32 @@ function bccl_license_text_hyperlink() {
 }
 
 
+/*
+Returns the URL of the license or an empty string.
+*/
+function bccl_get_license_url() {
+
+    // Licensing is added on posts, pages, attachments and custom post types.
+    if ( ! is_singular() || is_front_page() ) {
+        return;
+    }
+    $post = get_queried_object();
+
+    $options = get_option("cc_settings");
+    if ( $options === FALSE ) {
+        return;
+    }
+
+    $license_slug = bccl_get_content_license_slug( $post, $options );
+    if ( empty($license_slug) ) {
+        return;
+    }
+
+    $license_data = bccl_get_license_data( $license_slug );
+    if ( empty($license_data) ) {
+        return;
+    }
+
+    return $license_data['url'];
+}
+
