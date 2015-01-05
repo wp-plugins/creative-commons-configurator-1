@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function bccl_get_default_options() {
     return array(
         "settings_version"  => 3,       // IMPORTANT: SETTINGS UPGRADE: Every time settings are added or removed this has to be incremented for auto upgrade of settings.
-        "cc_default_license"   => "arr",
+        "cc_default_license"   => "manual",
         "cc_head"       => "0",
         "cc_feed"       => "0",
         "cc_body"       => "0",     // Add license information under posts and custom post types.

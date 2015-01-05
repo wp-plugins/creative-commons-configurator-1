@@ -111,9 +111,11 @@ function bccl_get_the_creator($what) {
 }
 
 
-function bccl_add_placeholders($data, $what = "html") {
-    if (!(trim($data))) { return ""; }
-    if ($what = "html") {
+function bccl_add_placeholders( $data, $what='html' ) {
+    if ( empty( $data ) ) {
+        return '';
+    }
+    if ( $what == 'html' ) {
         return sprintf( PHP_EOL . "<!-- BEGIN License added by Creative-Commons-Configurator plugin for WordPress -->" . PHP_EOL . "%s" . PHP_EOL . "<!-- END License added by Creative-Commons-Configurator plugin for WordPress -->" . PHP_EOL , trim($data) );
     } else {
         return sprintf( PHP_EOL . "<!--" . PHP_EOL . "%s" . PHP_EOL . "-->" . PHP_EOL, trim($data) );

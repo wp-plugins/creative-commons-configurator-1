@@ -25,7 +25,7 @@ function bccl_admin_init() {
     // the description exactly as they appear in the plugin metadata, so that
     // they can be translated.
     $bccl_plugin_name = __('Creative Commons Configurator', 'cc-configurator');
-    $bccl_plugin_description = __('Helps you publish your content under the terms of a Creative Commons license.', 'cc-configurator');
+    $bccl_plugin_description = __('Helps you publish your content under the terms of Creative Commons and other licenses.', 'cc-configurator');
 
     // Perform automatic settings upgrade based on settings version.
     // Also creates initial default settings automatically.

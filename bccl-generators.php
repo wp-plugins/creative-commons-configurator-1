@@ -11,6 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+// Generator for no licensing information (manual)
+function bccl_manual_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
+    return '';
+}
+
+
 // ARR Generator
 function bccl_arr_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
 
@@ -63,7 +69,7 @@ function bccl_arr_generator( $license_slug, $license_data, $post, $options, $min
 
 
 
-// CC Zero 1.0
+// CC Zero Generator
 function bccl_cc0_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
 
     // License image hyperlink
@@ -82,6 +88,21 @@ function bccl_cc0_generator( $license_slug, $license_data, $post, $options, $min
     // Allow filtering of the license text
     $license_text = apply_filters( 'bccl_cc0_license_text', $license_text );
 
+    // Extra perms
+    $extra_perms_text = '';
+    $extra_perms_url = bccl_get_extra_perms_url( $post, $options );
+    $extra_perms_title = bccl_get_extra_perms_title( $post, $options );
+    if ( ! empty($extra_perms_url) ) {
+        if ( empty($extra_perms_title) ) {
+            // If there is no title, use the URL as the anchor text.
+            $extra_perms_title = $extra_perms_url;
+        }
+        $extra_perms_hyperlink = sprintf('<a xmlns:cc="http://creativecommons.org/ns#" href="%s" rel="cc:morePermissions">%s</a>', $extra_perms_url, $extra_perms_title);
+        $extra_perms_template = __('Terms and conditions beyond the scope of this waiver may be available at %s.', 'cc-configurator');
+        $extra_perms_template = apply_filters( 'bccl_cc0_extra_permissions_template', $extra_perms_template );
+        $extra_perms_text = sprintf($extra_perms_template, $extra_perms_hyperlink);
+    }
+
     // Construct HTML block
     if ( $minimal === false ) {
         $cc_block = array();
@@ -92,7 +113,11 @@ function bccl_cc0_generator( $license_slug, $license_data, $post, $options, $min
         }
         // License
         $cc_block[] = $license_text;
-
+        // Extra perms
+        if ( ! empty($extra_perms_text) ) {
+            //$cc_block[] = '<br />';
+            $cc_block[] = $extra_perms_text;
+        }
         $full_license_block = implode(PHP_EOL, $cc_block);
         $full_license_block = apply_filters( 'bccl_cc0_full_license_block', $full_license_block );
         return '<p class="cc-block">' . $full_license_block . '</p>';
@@ -194,6 +219,72 @@ function bccl_cc_generator( $license_slug, $license_data, $post, $options, $mini
         return $minimal_license_block;        
     }
 }
+
+
+// License Badge Shortcode
+
+function bccl_license_badge_shortcode( $atts ) {
+    // Entire list of supported parameters and their default values
+    $pairs = array(
+        'type'    => '',    // License slug (required)
+        'compact' => '1',   // Display compact image.
+        'link'    => '1',   // Create hyperlink to the license page at creativecommons.org
+    );
+    // Combined and filtered attribute list.
+	$atts = shortcode_atts( $pairs, $atts, 'license' );
+
+    // Construct the array with the slugs of the licenses supported by the shortcode.
+    $license_slugs_all = array_keys( bccl_get_all_licenses() );
+    $license_slugs_unsupported = apply_filters( 'bccl_shortcode_license_unsupported_slugs', array( 'manual', 'arr' ) );
+    $license_slugs = array();
+    foreach ( $license_slugs_all as $slug ) {
+        if ( ! in_array( $slug, $license_slugs_unsupported ) ) {
+            $license_slugs[] = $slug;
+        }
+    }
+
+    // Check for required parameters.
+    if ( empty( $atts['type'] ) ) {
+        return '<code>license error: missing "type" - supported: ' . implode(', ', $license_slugs) . '</code>';
+    }
+
+    // Type validation
+    if ( ! in_array( $atts['type'], $license_slugs ) ) {
+        return '<code>license error: invalid type - supported: ' . implode(', ', $license_slugs) . '</code>';
+    }
+
+    // Get license data
+    $license_data = bccl_get_license_data( $atts['type'] );
+
+    // Construct absolute image URL
+    $license_image_url = $license_data['button_compact_url'];
+    if ( empty( $atts['compact'] ) ) {
+        $license_image_url = $license_data['button_url'];
+    }
+    $license_image_url = plugins_url( 'media/' . $license_image_url, BCCL_PLUGIN_FILE );
+    // Use correct protocol for image URL
+    if (is_ssl()) {
+        $license_image_url = str_replace('http://', 'https://', $license_image_url);
+    }
+
+    // Construct HTML output
+    $html = '<div class="cc-badge">';
+    if ( ! empty( $atts['link'] ) ) {
+        // We do not use rel="license" so as to avoid confusing the bots.
+        $html .= sprintf('<a href="%s" title="%s">', $license_data['url'], $license_data['name']);
+    }
+    $html .= sprintf('<img src="%s" alt="%s" />', $license_image_url, $license_data['name']);
+    if ( ! empty( $atts['link'] ) ) {
+        $html .= '</a>';
+    }
+    $html .= '</div>';
+
+    $html = apply_filters( 'bccl_shortcode_badge_html', $html );
+
+	return $html;
+}
+add_shortcode( 'license', 'bccl_license_badge_shortcode' );
+
 
 
     /****** VALID CODE FOR SOURCE WORK

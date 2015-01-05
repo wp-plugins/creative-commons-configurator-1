@@ -13,6 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bccl_get_all_licenses() {
     $licenses = array(
+        // No license
+        'manual'   =>  array(         // slug (unique for each license)
+            'url' => '',    // URL to license page
+            'name' => sprintf(__('No Licensing Information', 'cc-configurator'), '4.0'),   // Name of the license
+            'name_short' => '',
+            'button_url' => '', // URL to license button
+            'button_compact_url' => '', // URL to a small license button
+            'generator_func' => 'bccl_manual_generator'
+        ),
         // Creative Commons 4 Licenses
         'cc__by'   =>  array(         // slug (unique for each license)
             'url' => 'http://creativecommons.org/licenses/by/4.0/',    // URL to license page
