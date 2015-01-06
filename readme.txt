@@ -42,7 +42,7 @@ The features at a glance:
  - A block with licensing information under the published content.
 - Some template tags are provided for use in your theme templates.
 - The plugin is ready for localization.
-- The plugin can be extended to support custom licenses. Further below an example is provided about how to add support for the WTFPL license. ;)
+- The plugin can be extended to support custom licenses.
 
 
 = Translations =
