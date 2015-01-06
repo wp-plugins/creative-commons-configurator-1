@@ -204,6 +204,25 @@ function bccl_get_creator_hyperlink( $post, $creator_format ) {
 }
 
 
+// Accepts a URL.
+// 1) If the URL is absolute, it returns it as is after correcting the protocol according to the is_ssl() output.
+// 2) If the URL is relative, it assumes that the path is relative to (plugin_dir)/media/ and constructs the absolute version of it.
+function bccl_make_absolute_image_url( $url ) {
+    if ( 0 !== strpos( $url, 'http://' ) && 0 !== strpos( $url, 'https://' ) && 0 !== strpos( $url, '//' ) ) {
+        // Construct an absolute URL from a relative URL
+        $url = plugins_url( 'media/' . $url, BCCL_PLUGIN_FILE );
+    }
+    // Use correct protocol for image URL
+    if ( is_ssl() ) {
+        $url = str_replace( 'http://', 'https://', $url );
+    }
+    // Make the URL protocol agnostic
+    //$url = preg_replace( '#^https?:#i', '', $url );
+    // Allow filtering of the image URL
+    $url = apply_filters( 'bccl_license_image_url', $url );
+    return $url;
+}
+
 // License Image Hyperlink Generator
 function bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, $options ) {
 
@@ -220,15 +239,7 @@ function bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, 
         return;
     }
     // Construct absolute image URL
-    $license_image_url = plugins_url( 'media/' . $license_image_url, BCCL_PLUGIN_FILE );
-    // Use correct protocol for image URL
-    if (is_ssl()) {
-        $license_image_url = str_replace('http://', 'https://', $license_image_url);
-    }
-    // Or make the link protocol agnostic
-    $license_image_url = preg_replace( '#^https?:#i', '', $license_image_url);
-    // Allow filtering of the image URL
-    $license_image_url = apply_filters( 'bccl_cc_license_image_url', $license_image_url );
+    $license_image_url = bccl_make_absolute_image_url( $license_image_url );
 
     // Other License Data
     $license_name = $license_data['name_short'];

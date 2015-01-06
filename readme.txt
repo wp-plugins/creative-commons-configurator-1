@@ -4,39 +4,45 @@ Donate link: http://bit.ly/1aoPaow
 Tags: cc, cc0, license, public domain, metadata, legal, creative, commons, seo, attribution, copyright, cc license, creative commons, cc zero, rights, copyright
 Requires at least: 2.7
 Tested up to: 4.2
-Stable tag: 1.8.5
+Stable tag: 1.8.6
 License: Apache License v2
 License URI: http://www.apache.org/licenses/LICENSE-2.0.txt
 
 
-Helps you publish your content under the terms of Creative Commons and other licenses. Fully customizable.
+Helps you publish your content under the terms of Creative Commons and other licenses.
 
 
 == Description ==
 
-[Creative-Commons-Configurator](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official Creative-Commons-Configurator Homepage") is the only tool a user will ever need in order to set a [Creative Commons License](http://creativecommons.org/) on a WordPress blog and control the inclusion or display of the license information and relevant metadata into the blog pages or the syndication feeds. All configuration is done via a page in the administration panel.
+[Creative-Commons-Configurator](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official Creative-Commons-Configurator Homepage") is the only tool a user will ever need in order to license the contents of WordPress powered web site under the terms of a [Creative Commons](http://creativecommons.org/) or other license. Configuration of the plugin is possible through its configuration panel. Advanced users can further customize the plugin and extend its functionality through filters.
 
-By default, the license you have chosen in the License settings is automatically appended to all content, unless otherwise specified in the settings. Since the 1.8.0 release, it is possible to customize the license metadata on a per post basis from the *License* box in the post editing screen. The following licenses are supported:
+The following licenses are built-in:
 
 - All Creative Commons 4.0 licenses.
 - The <a href="http://creativecommons.org/about/cc0">CC0</a> rights waiver by Creative Commons.
 - Although not a license and not recommended, the *All Rights Reserved* clause.
 
-Template tags and filters are also available for those who need extra customization.
+= Quick Start =
 
-Features at a glance:
+Making all your content available under the terms of a single license is as easy as selecting a default global license in the plugin configuration panel. In the same screen you can customize various details of license text and also the looks of the displayed license block.
 
-- Configuration page in the WordPress administration panel.
+For those who need to license their content under various licenses, it is possible to customize the license on a per post basis at the *License* box in the post editing screen. If this is not enough, the `[license]` shortcode is available which can be used to generate quick license badges that can be used to easily add licensing information for parts of a single post.
+
+The built-in licenses can be customized or support for other custom licences can be added programmatically.
+
+The features at a glance:
+
+- Configuration screen in the WordPress administration panel under the path `Settings->License`.
 - Custom license on a per post basis.
+- Shortcode that generates license badges. See the dedicated section below for usage information.
 - A license widget is available to add to your sidebars.
-- Adds license information to:
+- Licensing meta information can be added to:
  - The HTML head area (Not visible to human visitors).
  - The Atom, RSS 2.0 and RDF (RSS 1.0) feeds through the Creative Commons RSS module, which validates properly. This option is compatible only with WordPress 2 or newer due to technical reasons.
- - Displays a block with license information under the published content. Basic customization (license information and formatting) is available through the configuration panel.
-- Shortcode that generates license badges.
+ - A block with licensing information under the published content.
 - Some template tags are provided for use in your theme templates.
 - The plugin is ready for localization.
-- The plugin can be extended to support custom licenses.
+- The plugin can be extended to support custom licenses. Further below an example is provided about how to add support for the WTFPL license. ;)
 
 
 = Translations =
@@ -102,6 +108,8 @@ TODO
 
 Creative-Commons-Configurator allows filtering of some of the generated metadata and also of some core functionality through filters. This way advanced customization of the plugin is possible.
 
+TODO: update the filter list.
+
 The available filters are:
 
 1. `bccl_cc_license_text` - applied to the text that is generated for the Creative Commons License. The hooked function should accept and return 1 argument: a string.
@@ -125,7 +133,7 @@ The available filters are:
 1. `bccl_cc_extra_permissions_template` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
 1. `bccl_cc_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
 1. `bccl_cc_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc_license_image_url` - applied to the URL of the image of the used license. The hooked function should accept and return 1 argument: a URL.
+1. `bccl_license_image_url` - applied to the URL of the image of the used license. The hooked function should accept and return 1 argument: a URL.
 
 
 **Example 1**: you want to append a copyright notice to the CC license text.
@@ -140,6 +148,35 @@ function append_copyright_notice_to_cc_text( $license_text ) {
 add_filter( 'bccl_cc_license_text', 'append_copyright_notice_to_cc_text', 10, 1 );
 `
 This code can be placed inside your theme's `functions.php` file.
+
+
+**Example 2**: you want to add support for the WTFPL license.
+
+This can easily be done by hooking a custom function to the `bccl_licenses` filter:
+
+`
+// Example WTFPL output generator.
+function bccl_wtfpl_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
+    $template = '<a rel="license" href="%s"><img src="%s" alt="%s" /></a>';
+    $template .= '<br />This work is licensed under a WTFPL International License.';
+    $full_license_block = sprintf( $template, $license_data['url'], $license_data['button_url'], $license_data['name'] );
+    return '<p class="cc-block">' . $full_license_block . '</p>';
+}
+// Add the WTFPL license to the array of available licenses.
+function bccl_add_wtfpl_license( $licenses ) {
+    $licenses['wtfpl'] = array(         // slug (unique for each license)
+        'url' => 'http://www.wtfpl.net/about/',    // URL to license page
+        'name' => 'WTFPL',   // Name of the license
+        'name_short' => 'WTFPL',
+        'button_url' => 'http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png', // URL to license button
+        'button_compact_url' => 'http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-2.png', // URL to a small license button
+        'generator_func' => 'bccl_wtfpl_generator'
+    );
+    return $licenses;
+}
+add_filter( 'bccl_licenses', 'bccl_add_wtfpl_license' );
+`
+This code can be placed inside your theme's `functions.php` file or in a custom plugin.
 
 
 == Installation ==
@@ -188,6 +225,10 @@ You can find the bug tracker at the [Creative-Commons-Configurator Development w
 
 In the following list there are links to the changelog of each release:
 
+- [1.8.6](http://www.codetrax.org/versions/247)
+ - Minor code improvements.
+ - Updated features in readme.txt.
+ - Updated translations.
 - [1.8.5](http://www.codetrax.org/versions/234)
  - Added extra permissions clause in the CC0 generator.
  - Option for "No License" has been added.

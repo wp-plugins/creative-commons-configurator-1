@@ -261,11 +261,7 @@ function bccl_license_badge_shortcode( $atts ) {
     if ( empty( $atts['compact'] ) ) {
         $license_image_url = $license_data['button_url'];
     }
-    $license_image_url = plugins_url( 'media/' . $license_image_url, BCCL_PLUGIN_FILE );
-    // Use correct protocol for image URL
-    if (is_ssl()) {
-        $license_image_url = str_replace('http://', 'https://', $license_image_url);
-    }
+    $license_image_url = bccl_make_absolute_image_url( $license_image_url );
 
     // Construct HTML output
     $html = '<div class="cc-badge">';
