@@ -1,30 +1,182 @@
 === Creative Commons Configurator ===
-Donate link: http://www.g-loaded.eu/about/donate/
-Tags: license, creative commons, metadata, legal
-Requires at least: 1.5.2
-Tested up to: 2.8.4
-Stable tag: 1.2
+Contributors: gnotaras
+Donate link: http://bit.ly/1aoPaow
+Tags: cc, cc0, license, public domain, metadata, legal, creative, commons, seo, attribution, copyright, cc license, creative commons, cc zero, rights, copyright
+Requires at least: 2.7
+Tested up to: 4.2
+Stable tag: 1.8.6
+License: Apache License v2
+License URI: http://www.apache.org/licenses/LICENSE-2.0.txt
 
-Adds Creative Commons license information to your posts, pages and feeds. Fully customizable.
+
+Helps you publish your content under the terms of Creative Commons and other licenses.
 
 
 == Description ==
 
-[Creative-Commons-Configurator](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official Creative-Commons-Configurator Homepage") had been initially released in early 2006. It is **actively maintained**.
+[Creative-Commons-Configurator](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official Creative-Commons-Configurator Homepage") is the only tool a user will ever need in order to license the contents of WordPress powered web site under the terms of a [Creative Commons](http://creativecommons.org/) or other license. Configuration of the plugin is possible through its configuration panel. Advanced users can further customize the plugin and extend its functionality through filters.
 
-This plugin is the only tool a user will ever need in order to set a [Creative Commons License](http://creativecommons.org/) on a WordPress blog and control the inclusion or display of the license information and relevant metadata into the blog pages or the syndication feeds. All configuration is done via a page in the administration panel. Template tags are also available for those who need complete customization.
+The following licenses are built-in:
 
-Features at a glance:
+- All Creative Commons 4.0 licenses.
+- The <a href="http://creativecommons.org/about/cc0">CC0</a> rights waiver by Creative Commons.
+- Although not a license and not recommended, the *All Rights Reserved* clause.
 
-- Configuration page in the WordPress administration panel. No manual editing of files is needed for basic usage.
-- License selection by using the web-based license selection API from CreativeCommons.org.
-- The license information can be reset at any time. This action also removes the options that are stored in the WordPress database.
-- Adds license information to:
- - The HTML head area of the every blog page (this is for search engine bots only – Not visible to human visitors).
- - The Atom, RSS 2.0 and RDF (RSS 1.0) feeds through the Creative Commons RSS module, which validates properly. This option is compatible only with WordPress 2 or newer due to technical reasons. It will not appear on versions older than 2.0.
- - Displays a block with license information under the published content. Basic customization (license information and formatting) is available through the configuration panel.
+= Quick Start =
+
+Making all your content available under the terms of a single license is as easy as selecting a default global license in the plugin configuration panel. In the same screen you can customize various details of license text and also the looks of the displayed license block.
+
+For those who need to license their content under various licenses, it is possible to customize the license on a per post basis at the *License* box in the post editing screen. If this is not enough, the `[license]` shortcode is available which can be used to generate quick license badges that can be used to easily add licensing information for parts of a single post.
+
+The built-in licenses can be customized or support for other custom licences can be added programmatically.
+
+The features at a glance:
+
+- Configuration screen in the WordPress administration panel under the path `Settings->License`.
+- Custom license on a per post basis.
+- Shortcode that generates license badges. See the dedicated section below for usage information.
+- A license widget is available to add to your sidebars.
+- Licensing meta information can be added to:
+ - The HTML head area (Not visible to human visitors).
+ - The Atom, RSS 2.0 and RDF (RSS 1.0) feeds through the Creative Commons RSS module, which validates properly. This option is compatible only with WordPress 2 or newer due to technical reasons.
+ - A block with licensing information under the published content.
 - Some template tags are provided for use in your theme templates.
 - The plugin is ready for localization.
+- The plugin can be extended to support custom licenses. Further below an example is provided about how to add support for the WTFPL license. ;)
+
+
+= Translations =
+
+There is an ongoing effort to translate Creative-Commons-Configurator to as many languages as possible. The easiest way to contribute translations is to register to the [translations project](https://www.transifex.com/projects/p/cc-configurator "Creative-Commons-Configurator translations project") at the Transifex service.
+
+Once registered, join the team of the language translation you wish to contribute to. If a team does not exist for your language, be the first to create a translation team by requesting the language and start translating.
+
+
+= Free License and Donations =
+
+*Creative-Commons-Configurator* is released under the terms of the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License version 2</a> and, therefore, is **Free software**.
+
+However, a significant amount of **time** and **energy** has been put into developing this plugin, so, its production has not been free from cost. If you find this plugin useful and, if it has made your life easier, you can show your appreciation by making a small <a href="http://bit.ly/1aoPaow">donation</a>.
+
+Thank you in advance for **donating**!
+
+
+= Code Contributions =
+
+If you are interested in contributing code to this project, please make sure you read the [special section](http://wordpress.org/plugins/creative-commons-configurator-1/other_notes/#How-to-contribute-code "How to contribute code") for this purpose, which contains all the details.
+
+
+= Support and Feedback =
+
+Please post your questions and provide general feedback and requests at the [Creative-Commons-Configurator Community Support Forum](http://wordpress.org/support/plugin/creative-commons-configurator-1/).
+
+To avoid duplicate effort, please do some research on the forum before asking a question, just in case the same or similar question has already been answered.
+
+Also, make sure you read the [FAQ](http://wordpress.org/plugins/creative-commons-configurator-1/faq/ "Creative-Commons-Configurator FAQ").
+
+
+= License Shortcode =
+
+The `License` shortcode allows you quickly generate license badges. These can be used to indicate that parts of your post have a different license. The shortcode can be used like this:
+
+`[license]`
+
+The following parameters are supported:
+
+- `type`: (string) (required): The type of the license. This has to be one of the license types supported by the plugin. If the parameter is missing or an invalid type has been set, it will print the supported types. For instance: `cc__by, cc__by-nd, cc__by-sa, cc__by-nc, cc__by-nc-nd, cc__by-nc-sa, cc0`. There is no default.
+- `compact`: (string) (0|1): Whether to use the compact license images or not. The default is "1".
+- `link`: (string) (0|1): Whether to create an image link to the license page or output just the `<img>` element. The default is "1".
+
+Examples:
+
+`
+[license type="cc__by-sa"]
+[license type="cc__by-sa compact="0"]
+[license type="cc__by-sa compact="0" link="0"]
+`
+
+= Template Tags =
+
+This plugin provides some *Template Tags*, which can be used in your theme templates. These are the following:
+
+**NOTE**: Template tags will be revised in upcoming versions.
+
+TODO
+
+
+= Advanced Customization =
+
+Creative-Commons-Configurator allows filtering of some of the generated metadata and also of some core functionality through filters. This way advanced customization of the plugin is possible.
+
+TODO: update the filter list.
+
+The available filters are:
+
+1. `bccl_cc_license_text` - applied to the text that is generated for the Creative Commons License. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc0_license_text` - applied to the text that is generated for the CC0 rights waiver. The hooked function should accept and return 1 argument: a string.
+1. `bccl_arr_license_text` - applied to the text that is generated for All Rights Reserved clause. The hooked function should accept and return 1 argument: a string.
+1. `bccl_widget_html` - applied to the HTML code that is generated for the widget. The hooked function should accept and return 1 argument: a string.
+1. `widget_title` - applied to the title of the license widget. The hooked function should accept and return 1 argument: a string.
+1. `bccl_license_metabox_permission` - applied to the metabox permission. The hooked function should accept and return 1 argument: a string. By default, the `edit_posts` is used.
+1. `bccl_licenses` - applied to the array of the supported licenses. The hooked function should accept and return 1 argument: an array of licenses (see `bccl-licenses.php` for details).
+1. `bccl_default_license` - applied to the license slug that will be used for the current post. The hooked function should accept and return 1 argument: a string (see `bccl-licenses.php` for details).
+1. `bccl_supported_post_types` - applied to the array of the supported post types. The hooked function should accept and return 1 argument: an array of post types.
+1. `bccl_arr_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_arr_extra_permissions_template` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_arr_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_arr_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc0_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc0_extra_permissions_template` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc0_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc0_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc_extra_permissions_template` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_cc_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
+1. `bccl_license_image_url` - applied to the URL of the image of the used license. The hooked function should accept and return 1 argument: a URL.
+
+
+**Example 1**: you want to append a copyright notice to the CC license text.
+
+This can easily be done by hooking a custom function to the `bccl_cc_license_text` filter:
+
+`
+function append_copyright_notice_to_cc_text( $license_text ) {
+    $extra_text = '<br />Copyright &copy; ' . get_the_date('Y') . ' - Some Rights Reserved';
+    return $license_text . $extra_text;
+}
+add_filter( 'bccl_cc_license_text', 'append_copyright_notice_to_cc_text', 10, 1 );
+`
+This code can be placed inside your theme's `functions.php` file.
+
+
+**Example 2**: you want to add support for the WTFPL license.
+
+This can easily be done by hooking a custom function to the `bccl_licenses` filter:
+
+`
+// Example WTFPL output generator.
+function bccl_wtfpl_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
+    $template = '<a rel="license" href="%s"><img src="%s" alt="%s" /></a>';
+    $template .= '<br />This work is licensed under a WTFPL International License.';
+    $full_license_block = sprintf( $template, $license_data['url'], $license_data['button_url'], $license_data['name'] );
+    return '<p class="cc-block">' . $full_license_block . '</p>';
+}
+// Add the WTFPL license to the array of available licenses.
+function bccl_add_wtfpl_license( $licenses ) {
+    $licenses['wtfpl'] = array(         // slug (unique for each license)
+        'url' => 'http://www.wtfpl.net/about/',    // URL to license page
+        'name' => 'WTFPL',   // Name of the license
+        'name_short' => 'WTFPL',
+        'button_url' => 'http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png', // URL to license button
+        'button_compact_url' => 'http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-2.png', // URL to a small license button
+        'generator_func' => 'bccl_wtfpl_generator'
+    );
+    return $licenses;
+}
+add_filter( 'bccl_licenses', 'bccl_add_wtfpl_license' );
+`
+This code can be placed inside your theme's `functions.php` file or in a custom plugin.
 
 
 == Installation ==
@@ -36,76 +188,157 @@ Features at a glance:
 Read more information about the [Creative-Commons-Configurator](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official Creative-Commons-Configurator Homepage").
 
 
+== Upgrade Notice ==
+
+No special requirements when upgrading.
+
+
 == Frequently Asked Questions ==
+
+= There is no amount set in the donation form! How much should I donate? =
+
+The amount of the donation is totally up to you. You can think of it like this: Are you happy with the plugin? Do you think it makes your life easier or adds value to your web site? If this is a yes and, if you feel like showing your appreciation, you could imagine buying me a cup of coffee at your favorite Cafe and <a href="http://bit.ly/1aoPaow">make a donation</a> accordingly.
+
+= Will this plugin support other licenses apart from Creative-Commons licenses? =
+
+Currently there are no plans to support other licenses.
 
 = Where can I get support? =
 
-Creative-Commons-Configurator is released as free software without warranties or official support. You can still get first class support from the [community of users](http://www.codetrax.org/projects/wp-cc-configurator/boards "Creative-Commons-Configurator Users").
+You can get first class support from the [community of users](http://wordpress.org/support/plugin/creative-commons-configurator-1 "Creative-Commons-Configurator Users"). Please post your questions, feature requests and general feedback in the forums.
 
-= I found a bug! =
+Keep in mind that in order to get helpful answers and eventually solve any problem you encounter with the plugin, it is essential to provide as much information as possible about the problem and the configuration of the plugin. If you use a customized installation of WordPress, please make sure you provide the general details of your setup.
 
-Please, be kind enough to [file a bug report](http://www.codetrax.org/projects/wp-cc-configurator/issues/new "File bug about Creative-Commons-Configurator") to our issue database. This is the only way to bring the issue to the plugin author's attention.
+Also, my email can be found in the `cc-configurator.php` file. If possible, I'll help. Please note that it may take a while to get back to you.
 
-= I want to request a new feature! =
+= Is there a bug tracker? =
 
-Please, use our [issue database](http://www.codetrax.org/projects/wp-cc-configurator/issues "Creative-Commons-Configurator Issue Database") to submit your requests.
-
-= How can I thank you? =
-
-This plugin is released as free software. On the other hand, it requires time and effort to develop and maintain. I would appreciate either:
-
-- a small [donation](http://www.g-loaded.eu/about/donate/ "Donate here") as a sign of appreciation of the effort and energy put into this project, or
-- a blog post that describes why you like or dislike Creative-Commons-Configurator.
-
-Thanks in advance!
+You can find the bug tracker at the [Creative-Commons-Configurator Development web site](http://www.codetrax.org/projects/wp-cc-configurator).
 
 
 == Screenshots ==
 
-No screenshots have been uploaded.
+1. Creative-Commons-Configurator administration interface.
 
 
 == Changelog ==
 
-Please read the dynamic [changelog](http://www.codetrax.org/projects/wp-cc-configurator/changelog "Creative-Commons-Configurator ChangeLog")
+In the following list there are links to the changelog of each release:
 
-= Sat Oct 24 2009 - v1.2 =
-* Released under the Apache License v2
-* Added readme.txt for WordPress plugin repository
-= Tue Jan 6 2009 – v1.1 =
-* Use rawurldecode() on the values that are returned by the CC API.
-* Removed the border attribute from the image hyperlink in order to comply with
-XHTML 1.1.
-= Thu Mar 15 2007 – v1.0 =
-* The plugin was almost re-written from scratch. Many new features have been added and others have been modified so to provide the best functionality and ease of use.
-* The license selection engine from CreativeCommons.org is now used in order to select a license for your blog. No more copying and pasting of license code.
-* A new license info layer is introduced for placing under the published content. Customization of that layer is possible either from the config panel or with CSS.
-* WARNING: the bccl_display_full_html_license() template tag has been replaced by bccl_full_html_license(). Make sure you update your theme templates.
-* New template tags are available.
-* The configuration panel has been reworked.
-* The plugin is ready for translations.
-= Sat Feb 24 2007 – v0.6 =
-* Supports CC v3
-= Wed Nov 01 2006 – v0.5 =
-* When the options where modified in the administration panel, a confirmation was asked. This behaviour has been corrected and the options are saved immediately.
-* Wordpress escaped some characters in the extra message that is displayed after the post’s body. This resulted in corrupted HTML code. This has been corrected (thanks John)
-= Wed Oct 04 2006 – v0.4 =
-* Plugin information update
-= Mon Jan 16 2006 =
-* Update to version 0.2
-* Added a WordPress version check, so that the option to include licensing info in the feeds does not appear in older WP version than 2.0.
-* Added an informational section in the configuration page about the template tags that can be used in the theme.
-* Added success message after successful license reset.
-* Added success message after successful license code submission.
-* Added error message if license code does not seem valid.
-* Added some Creative Commons license code verification. Seems to work with all licenses, but is very primitive. Only the basic HTML code structure is checked.
-* The default licensing info message that is displayed after the post’s body was modified.
-* Added one more option. Now a user can define some custom code that will be displayed
-together with the default message below the post’s body.
-* Added some template tags that can be used by a user on a theme.
-* More modularization of the code.
-* Minor fixes, so it works properly with other CC licenses, eg Developing Nations, Sampling etc.
-* Minor form HTML code fixes.
-= Sat Jan 14 2006 =
-* Initial v0.1 release
+- [1.8.6](http://www.codetrax.org/versions/247)
+ - Minor code improvements.
+ - Updated features in readme.txt.
+ - Updated translations.
+- [1.8.5](http://www.codetrax.org/versions/234)
+ - Added extra permissions clause in the CC0 generator.
+ - Option for "No License" has been added.
+ - Added the License Shortcode for quick license badge generation. These badges can be used to indicate different licensing for specific parts of the post.
+- [1.8.4](http://www.codetrax.org/versions/233)
+- [1.8.3](http://www.codetrax.org/versions/201)
+ - Various minor improvements.
+ - Updated translations.
+- [1.8.2](http://www.codetrax.org/versions/241)
+ - Improved the way admin styles and scripts are enqueued.
+ - Added filters for the customization of the extra permissions clause in CC and ARR.
+- [1.8.1](http://www.codetrax.org/versions/240)
+- [1.8.0](http://www.codetrax.org/versions/239)
+ - IMPORTANT: Major changes in functionality. Backwards incompatible default license. Reset the default license.
+ - Hard coded licenses instead of online license selectors.
+ - Full customization via filters.
+- [1.5.3](http://www.codetrax.org/versions/195)
+ - Updated translations.
+- [1.5.2](http://www.codetrax.org/versions/200)
+ - Updated translations (thanks: Jani Uusitalo, bzg, Matthias Heil, alvaroto, bizover)
+- [1.5.1](http://www.codetrax.org/versions/133)
+ - Some license customization on a per post basis has been implemented (options: use default, opt-out, CC0, ARR)
+ - Refactoring.
+- [1.5.0](http://www.codetrax.org/versions/181)
+ - Refactoring.
+ - Re-designed mechanism that manages the settings.
+ - Full support for SSL admin panel.
+ - A Creative Commons widget is now available.
+- [1.4.1](http://www.codetrax.org/versions/134)
+- [1.4.0](http://www.codetrax.org/versions/128)
+- [1.3.2](http://www.codetrax.org/versions/131)
+- [1.3.1](http://www.codetrax.org/versions/129)
+- [1.3.0](http://www.codetrax.org/versions/127)
+- [1.2](http://www.codetrax.org/versions/7)
+- [1.1](http://www.codetrax.org/versions/5)
+- [1.0](http://www.codetrax.org/versions/22)
+- [0.6](http://www.codetrax.org/versions/45)
+- [0.5](http://www.codetrax.org/versions/44)
+- [0.4](http://www.codetrax.org/versions/43)
+- [0.2](http://www.codetrax.org/versions/42)
+- [0.1](http://www.codetrax.org/versions/41)
+
+
+
+== How to contribute code ==
+
+This section contains information about how to contribute code to this project.
+
+Creative-Commons-Configurator is released under the Apache License v2.0 and is free open-source software. Therefore, code contributions are more than welcome!
+
+But, please, note that not all code contributions will finally make it to the main branch. Patches which fix bugs or improve the current features are very likely to be included. On the contrary, patches which add too complicated or sophisticated features, extra administration options or transform the general character of the plugin are unlikely to be included.
+
+= Source Code =
+
+The repository with the most up-to-date source code can be found on Bitbucket (Mercurial). This is where development takes place:
+
+`https://bitbucket.org/gnotaras/wordpress-creative-commons-configurator`
+
+The main repository is very frequently mirrored to Github (Git):
+
+`https://github.com/gnotaras/wordpress-creative-commons-configurator`
+
+The Subversion repository on WordPress.org is only used for releases. The trunk contains the latest stable release:
+
+`http://plugins.svn.wordpress.org/creative-commons-configurator-1/`
+
+= Creating a patch =
+
+Using Mercurial:
+
+`
+hg clone https://bitbucket.org/gnotaras/wordpress-creative-commons-configurator
+cd wordpress-creative-commons-configurator
+# ... make changes ...
+hg commit -m "fix for bug"
+# create a patch for the last commit
+hg export --git tip > bug-fix.patch
+`
+
+Using Git:
+
+`
+git clone https://github.com/gnotaras/wordpress-creative-commons-configurator
+cd wordpress-creative-commons-configurator
+# ... make changes to cc-configurator.php or other file ...
+git add cc-configurator.php
+git commit -m "my fix"
+git show > bug-fix.patch
+`
+
+Using SVN:
+
+`
+svn co http://plugins.svn.wordpress.org/creative-commons-configurator-1/trunk/ creative-commons-configurator-trunk
+cd creative-commons-configurator-trunk
+# ... make changes ...
+svn diff > bug-fix.patch
+`
+
+= Patch Submission =
+
+Here are some ways in which you can submit a patch:
+
+* submit to the [bug tracker](http://www.codetrax.org/projects/wp-cc-configurator/issues) of the development website.
+* create a pull request on Bitbucket or Github.
+* email it to me directly (my email address can be found in `cc-configurator.php`).
+* post it in the WordPress forums.
+
+Please note that it may take a while before I get back to you regarding the patch.
+
+Last, but not least, all code contributions are governed by the terms of the Apache License v2.0.
+
 
