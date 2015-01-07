@@ -226,8 +226,8 @@ You can find the bug tracker at the [Creative-Commons-Configurator Development w
 In the following list there are links to the changelog of each release:
 
 - [1.8.7](http://www.codetrax.org/versions/248)
- - Improved the license generator engine with string based templates and implemented advanced filtering of the generated HTML code for easy customizations via filers.
- - The shortcode now returns an empty string instead of an error message if an invalid type has been set. The error message indicating the supported license types is still printed if a type (required parameter) is missing.
+ - Improved the license generator engine with string based templates and implemented advanced filtering of the generated HTML code for easy customizations via filters.
+ - The shortcode now returns an empty string instead of an error message if an invalid type has been set. The error message indicating the supported license types is still being printed, but only if the `type` parameter (required) is missing.
 - [1.8.6](http://www.codetrax.org/versions/247)
  - Minor code improvements.
  - Updated features in readme.txt.
