@@ -21,7 +21,6 @@ The following licenses are built-in:
 - All [Creative Commons](http://creativecommons.org/licenses/) 4.0 licenses.
 - The <a href="http://creativecommons.org/about/cc0">CC0</a> rights waiver by Creative Commons.
 - Although not a license and not recommended, the *All Rights Reserved* clause.
-- The plugin can easily be extended to support other licenses.
 
 = Quick Start =
 
