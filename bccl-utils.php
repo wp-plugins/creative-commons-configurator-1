@@ -218,13 +218,11 @@ function bccl_make_absolute_image_url( $url ) {
     }
     // Make the URL protocol agnostic
     //$url = preg_replace( '#^https?:#i', '', $url );
-    // Allow filtering of the image URL
-    $url = apply_filters( 'bccl_license_image_url', $url );
     return $url;
 }
 
 // License Image Hyperlink Generator
-function bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, $options ) {
+function bccl_cc_generate_image_hyperlink( $license_slug, $license_group, $license_data, $post, $options ) {
 
     if ( $options['cc_body_img'] != "1" ) {
         return;
@@ -240,6 +238,8 @@ function bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, 
     }
     // Construct absolute image URL
     $license_image_url = bccl_make_absolute_image_url( $license_image_url );
+    // Allow filtering of the image URL
+    $license_image_url = bccl_license_apply_filters( 'bccl_license_image_url', $license_slug, $license_group, $license_image_url );
 
     // Other License Data
     $license_name = $license_data['name_short'];
@@ -252,5 +252,32 @@ function bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, 
     } else {
         return sprintf('<a rel="license" href="%s"><img alt="%s" class="cc-button" src="%s" /></a>', $license_url, $license_name, $license_image_url);
     }
+}
+
+
+// Helper function to apply filters per license, per license group and to all licenses.
+function bccl_license_apply_filters( $filter_base_name, $license_slug, $license_group, $data ) {
+    // Filter for single license, eg `bccl_license_templates_cc__by-nc-sa`
+    $data = apply_filters( $filter_base_name.'_'.$license_slug, $data );
+    if ( ! empty( $license_group ) ) {
+        // Filter for group of licenses, eg `bccl_license_templates_cc`
+        $data = apply_filters( $filter_base_name.'_'.$license_group, $data );
+    }
+    // Filter for all licenses, eg: `bccl_license_templates`
+    $data = apply_filters( $filter_base_name, $data );
+    return $data;
+}
+
+
+// Determine license group
+function bccl_get_license_group_name( $license_slug ) {
+    // License slugs can be of the form: `group__term1-term2-term3`
+    // An example is the Creative Commons licenses. See `bccl-licenses.php`.
+    $license_group = '';
+    $license_slug_parts = explode('__', $license_slug);
+    if ( count( $license_slug_parts ) > 1 ) {
+        $license_group = $license_slug_parts[0];
+    }
+    return $license_group;
 }
 

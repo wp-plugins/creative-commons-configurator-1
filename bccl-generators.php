@@ -11,170 +11,145 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+
+// Default License Templates
+// Creative Commons licenses use these templates as is.
+function bccl_default_license_templates() {
+    return array(
+        'license_text_long' => __('#work# by #creator# is licensed under a #license#.', 'cc-configurator'), // Supports: #work#, #creator#, #license#, #year#
+        'license_text_short' => __('This work is licensed under a #license#.', 'cc-configurator'),  // Supports: #license#, #year#
+        'extra_perms' => __('Permissions beyond the scope of this license may be available at #page#.', 'cc-configurator'), // Supports: #page#
+        'enclosure' => '<p class="cc-block">%s</p>'
+    );
+}
+
+
+// Generator Functions
+
+
 // Generator for no licensing information (manual)
 function bccl_manual_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
     return '';
 }
 
 
-// ARR Generator
+// All Rights Reserved Generator
 function bccl_arr_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
-
-    $license_text = sprintf(__('Copyright &copy; %s - All Rights Reserved', 'cc-configurator'), get_the_date('Y'));
-    $license_text = apply_filters( 'bccl_arr_license_text', $license_text );
-
-    // Extra perms
-    $extra_perms_text = '';
-    $extra_perms_url = bccl_get_extra_perms_url( $post, $options );
-    $extra_perms_title = bccl_get_extra_perms_title( $post, $options );
-    if ( ! empty($extra_perms_url) ) {
-        if ( empty($extra_perms_title) ) {
-            // If there is no title, use the URL as the anchor text.
-            $extra_perms_title = $extra_perms_url;
-        }
-        $extra_perms_hyperlink = sprintf('<a href="%s">%s</a>', $extra_perms_url, $extra_perms_title);
-        $extra_perms_template = __('Information about how to reuse or republish this work may be available at %s.', 'cc-configurator');
-        $extra_perms_template = apply_filters( 'bccl_arr_extra_permissions_template', $extra_perms_template );
-        $extra_perms_text = sprintf($extra_perms_template, $extra_perms_hyperlink);
-        // Alt text: Terms and conditions beyond the scope of this license may be available at %s.
-    }
-
-    // Construct HTML block
-
-    if ( $minimal === false ) {
-        $cc_block = array();
-        // License
-        $cc_block[] = $license_text;
-        // Extra perms
-        if ( ! empty($extra_perms_text) ) {
-            $cc_block[] = '<br />';
-            $cc_block[] = $extra_perms_text;
-        }
-
-        $full_license_block = implode(PHP_EOL, $cc_block);
-        $full_license_block = apply_filters( 'bccl_arr_full_license_block', $full_license_block );
-        return '<p class="cc-block">' . $full_license_block . '</p>';
-
-    } else {    // $minimal === true
-        // Construct HTML block
-        $cc_block = array();
-        // License
-        $cc_block[] = $license_text;
-        // $pre_text = 'Copyright &copy; ' . get_the_date('Y') . ' - Some Rights Reserved' . '<br />';
-        $minimal_license_block = implode(PHP_EOL, $cc_block);
-        $minimal_license_block = apply_filters( 'bccl_arr_minimal_license_block', $minimal_license_block );
-        return $minimal_license_block;        
-    }
+    $templates = array_merge( bccl_default_license_templates(), array(
+        'license_text_long' => __('Copyright &copy; #year# - All Rights Reserved', 'cc-configurator'), // Supports: #work#, #creator#, #license#, #year#
+        'license_text_short' => __('Copyright &copy; #year# - All Rights Reserved', 'cc-configurator'),  // Supports: #license#, #year#
+        'extra_perms' => '<br />' . __('Information about how to reuse or republish this work may be available at #page#.', 'cc-configurator'), // Supports: #page#
+    ));
+    return bccl_base_generator( $license_slug, $license_data, $post, $options, $minimal, $templates );
 }
-
 
 
 // CC Zero Generator
 function bccl_cc0_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
-
-    // License image hyperlink
-    $license_button_hyperlink = bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, $options );
-    // Work hyperlink
-    $work_title_hyperlink = bccl_get_work_hyperlink( $post );
-    // Creator hyperlink
-    $creator_hyperlink = bccl_get_creator_hyperlink( $post, $options["cc_creator"] );
-
-    // License
-    if ( $options['cc_extended'] == '1' ) {
-        $license_text = sprintf(__('To the extent possible under law, %s has waived all copyright and related or neighboring rights to %s.', 'cc-configurator'), $creator_hyperlink, $work_title_hyperlink);
-    } else {
-        $license_text = __('To the extent possible under law, the creator has waived all copyright and related or neighboring rights to this work.', 'cc-configurator');
-    }
-    // Allow filtering of the license text
-    $license_text = apply_filters( 'bccl_cc0_license_text', $license_text );
-
-    // Extra perms
-    $extra_perms_text = '';
-    $extra_perms_url = bccl_get_extra_perms_url( $post, $options );
-    $extra_perms_title = bccl_get_extra_perms_title( $post, $options );
-    if ( ! empty($extra_perms_url) ) {
-        if ( empty($extra_perms_title) ) {
-            // If there is no title, use the URL as the anchor text.
-            $extra_perms_title = $extra_perms_url;
-        }
-        $extra_perms_hyperlink = sprintf('<a xmlns:cc="http://creativecommons.org/ns#" href="%s" rel="cc:morePermissions">%s</a>', $extra_perms_url, $extra_perms_title);
-        $extra_perms_template = __('Terms and conditions beyond the scope of this waiver may be available at %s.', 'cc-configurator');
-        $extra_perms_template = apply_filters( 'bccl_cc0_extra_permissions_template', $extra_perms_template );
-        $extra_perms_text = sprintf($extra_perms_template, $extra_perms_hyperlink);
-    }
-
-    // Construct HTML block
-    if ( $minimal === false ) {
-        $cc_block = array();
-        // License Button
-        if ( ! empty($license_button_hyperlink) ) {
-            $cc_block[] = $license_button_hyperlink;
-            $cc_block[] = '<br />';
-        }
-        // License
-        $cc_block[] = $license_text;
-        // Extra perms
-        if ( ! empty($extra_perms_text) ) {
-            //$cc_block[] = '<br />';
-            $cc_block[] = $extra_perms_text;
-        }
-        $full_license_block = implode(PHP_EOL, $cc_block);
-        $full_license_block = apply_filters( 'bccl_cc0_full_license_block', $full_license_block );
-        return '<p class="cc-block">' . $full_license_block . '</p>';
-
-    } else {    // $minimal === true
-        // Construct HTML block
-        $cc_block = array();
-        // License Button
-        if ( ! empty($license_button_hyperlink) ) {
-            $cc_block[] = $license_button_hyperlink;
-            $cc_block[] = '<br /><br />';
-        }
-        // License
-        $cc_block[] = $license_text;
-        // $pre_text = 'Copyright &copy; ' . get_the_date('Y') . ' - Some Rights Reserved' . '<br />';
-        $minimal_license_block = implode(PHP_EOL, $cc_block);
-        $minimal_license_block = apply_filters( 'bccl_cc0_minimal_license_block', $minimal_license_block );
-        return $minimal_license_block;        
-    }
+    $templates = array_merge( bccl_default_license_templates(), array(
+        'license_text_long' => __('To the extent possible under law, #creator# has waived all copyright and related or neighboring rights to #work#.', 'cc-configurator'), // Supports: #work#, #creator#, #license#, #year#
+        'license_text_short' => __('To the extent possible under law, the creator has waived all copyright and related or neighboring rights to this work.', 'cc-configurator'),  // Supports: #license#, #year#
+        'extra_perms' => __('Terms and conditions beyond the scope of this waiver may be available at #page#.', 'cc-configurator') // Supports: #page#
+    ));
+    return bccl_base_generator( $license_slug, $license_data, $post, $options, $minimal, $templates );
 }
 
 
 // CC Generator
 function bccl_cc_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
+    // Use default templates.
+    $templates = bccl_default_license_templates();
+    return bccl_base_generator( $license_slug, $license_data, $post, $options, $minimal, $templates );
+}
+
+
+
+
+// Base Generator
+function bccl_base_generator( $license_slug, $license_data, $post, $options, $minimal, $templates ) {
+
+    // Templates are required
+    if ( empty( $templates ) ) {
+        return '';
+    }
+
+    // Determine license group
+    $license_group = bccl_get_license_group_name( $license_slug );
+
+    // Allow filtering of the templates
+    $templates = bccl_license_apply_filters( 'bccl_license_templates', $license_slug, $license_group, $templates );
 
     // License image hyperlink
-    $license_button_hyperlink = bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, $options );
+    $license_button_hyperlink = bccl_cc_generate_image_hyperlink( $license_slug, $license_group, $license_data, $post, $options );
     // Work hyperlink
     $work_title_hyperlink = bccl_get_work_hyperlink( $post );
     // Creator hyperlink
     $creator_hyperlink = bccl_get_creator_hyperlink( $post, $options["cc_creator"] );
 
     // License
-    $license_hyperlink = sprintf('<a rel="license" href="%s">%s</a>', $license_data['url'], $license_data['name']);
-    if ( $options['cc_extended'] == '1' ) {
-        $license_text = sprintf(__('%s by %s is licensed under a %s.', 'cc-configurator'), $work_title_hyperlink, $creator_hyperlink, $license_hyperlink);
+    $license_text = '';
+    if ( ! empty( $license_data['url'] ) ) {
+        $license_hyperlink = sprintf('<a rel="license" href="%s">%s</a>', $license_data['url'], $license_data['name']);
     } else {
-        $license_text = sprintf(__('This work is licensed under a %s.', 'cc-configurator'), $license_hyperlink);
+         $license_hyperlink = sprintf('<em rel="license">%s</em>', $license_data['name']);
+    }
+    $license_text_long_template = $templates['license_text_long'];
+    $license_text_short_template = $templates['license_text_short'];
+    if ( ! empty( $license_text_long_template ) && $options['cc_extended'] == '1' ) {
+        // Construct long license text.
+        $license_text_long_template = bccl_license_apply_filters( 'bccl_license_text_long_template', $license_slug, $license_group, $license_text_long_template );
+        $template_vars = array(
+            '#work#'    => $work_title_hyperlink,
+            '#creator#' => $creator_hyperlink,
+            '#license#' => $license_hyperlink,
+            '#year#'    => get_the_date('Y')
+        );
+        $license_text = $license_text_long_template;
+        foreach ( $template_vars as $var_name=>$var_value ) {
+            $license_text = str_replace( $var_name, $var_value, $license_text );
+        }
+        //$license_text = sprintf(__('%s by %s is licensed under a %s.', 'cc-configurator'), $work_title_hyperlink, $creator_hyperlink, $license_hyperlink);
+    } elseif ( ! empty( $license_text_short_template ) ) {
+        // Construct short license text.
+        $license_text_short_template = bccl_license_apply_filters( 'bccl_license_text_short_template', $license_slug, $license_group, $license_text_short_template );
+        $template_vars = array(
+            '#license#' => $license_hyperlink,
+            '#year#'    => get_the_date('Y')
+        );
+        $license_text = $license_text_short_template;
+        foreach ( $template_vars as $var_name=>$var_value ) {
+            $license_text = str_replace( $var_name, $var_value, $license_text );
+        }
+        //$license_text = sprintf(__('This work is licensed under a %s.', 'cc-configurator'), $license_hyperlink);
     }
     // Allow filtering of the license text
-    $license_text = apply_filters( 'bccl_cc_license_text', $license_text );
+    $license_text = bccl_license_apply_filters( 'bccl_license_text', $license_slug, $license_group, $license_text );
 
     // Extra perms
     $extra_perms_text = '';
     $extra_perms_url = bccl_get_extra_perms_url( $post, $options );
     $extra_perms_title = bccl_get_extra_perms_title( $post, $options );
-    if ( ! empty($extra_perms_url) ) {
+    $extra_perms_template = $templates['extra_perms'];
+    if ( ! empty( $extra_perms_template ) && ! empty( $extra_perms_url ) ) {
         if ( empty($extra_perms_title) ) {
             // If there is no title, use the URL as the anchor text.
             $extra_perms_title = $extra_perms_url;
         }
         $extra_perms_hyperlink = sprintf('<a xmlns:cc="http://creativecommons.org/ns#" href="%s" rel="cc:morePermissions">%s</a>', $extra_perms_url, $extra_perms_title);
-        $extra_perms_template = __('Permissions beyond the scope of this license may be available at %s.', 'cc-configurator');
-        $extra_perms_template = apply_filters( 'bccl_cc_extra_permissions_template', $extra_perms_template );
-        $extra_perms_text = sprintf($extra_perms_template, $extra_perms_hyperlink);
+        // Construct extra permissions clause
+        $extra_perms_template = bccl_license_apply_filters( 'bccl_extra_permissions_template', $license_slug, $license_group, $extra_perms_template );
+        $template_vars = array(
+            '#page#' => $extra_perms_hyperlink
+        );
+        $extra_perms_text = $extra_perms_template;
+        foreach ( $template_vars as $var_name=>$var_value ) {
+            $extra_perms_text = str_replace( $var_name, $var_value, $extra_perms_text );
+        }
+        //$extra_perms_text = sprintf($extra_perms_template, $extra_perms_hyperlink);
         // Alt text: Terms and conditions beyond the scope of this license may be available at %s.
     }
+    // Allow filtering of the complete extra permissions clause.
+    $extra_perms_text = bccl_license_apply_filters( 'bccl_extra_perms_text', $license_slug, $license_group, $extra_perms_text );
 
     // Construct HTML block
     if ( $minimal === false ) {
@@ -186,10 +161,11 @@ function bccl_cc_generator( $license_slug, $license_data, $post, $options, $mini
             $cc_block[] = '<br />';
         }
         // License
-        $cc_block[] = $license_text;
+        if ( ! empty($license_text) ) {
+            $cc_block[] = $license_text;
+        }
         // Extra perms
         if ( ! empty($extra_perms_text) ) {
-            //$cc_block[] = '<br />';
             $cc_block[] = $extra_perms_text;
         }
         // Source Work
@@ -198,10 +174,14 @@ function bccl_cc_generator( $license_slug, $license_data, $post, $options, $mini
         //    $cc_block[] = $source_work_html;
         //}
 
+        // Construct full license text block
         // $pre_text = 'Copyright &copy; ' . get_the_date('Y') . ' - Some Rights Reserved' . '<br />';
         $full_license_block = implode(PHP_EOL, $cc_block);
-        $full_license_block = apply_filters( 'bccl_cc_full_license_block', $full_license_block );
-        return '<p class="cc-block">' . $full_license_block . '</p>';
+        $full_license_block = bccl_license_apply_filters( 'bccl_full_license_block', $license_slug, $license_group, $full_license_block );
+        // Construct enclosure
+        $enclosure_template = '<p class="cc-block">%s</p>';
+        $enclosure_template = bccl_license_apply_filters( 'bccl_enclosure_template', $license_slug, $license_group, $enclosure_template );
+        return sprintf( $enclosure_template, $full_license_block );
 
     } else {    // $minimal === true
         // Construct HTML block
@@ -215,8 +195,8 @@ function bccl_cc_generator( $license_slug, $license_data, $post, $options, $mini
         $cc_block[] = $license_hyperlink;
         // $pre_text = 'Copyright &copy; ' . get_the_date('Y') . ' - Some Rights Reserved' . '<br />';
         $minimal_license_block = implode(PHP_EOL, $cc_block);
-        $minimal_license_block = apply_filters( 'bccl_cc_minimal_license_block', $minimal_license_block );
-        return $minimal_license_block;        
+        $minimal_license_block = bccl_license_apply_filters( 'bccl_minimal_license_block', $license_slug, $license_group, $minimal_license_block );
+        return $minimal_license_block;
     }
 }
 
@@ -250,7 +230,11 @@ function bccl_license_badge_shortcode( $atts ) {
 
     // Type validation
     if ( ! in_array( $atts['type'], $license_slugs ) ) {
-        return '<code>license error: invalid type - supported: ' . implode(', ', $license_slugs) . '</code>';
+        // If an invalid license type has been requested we return an empty string.
+        // This way, even if the available licenses have been customized, any
+        // [license] shortcode with invalid type in the posts would not print the error message.
+        //return '<code>license error: invalid type - supported: ' . implode(', ', $license_slugs) . '</code>';
+        return '';
     }
 
     // Get license data

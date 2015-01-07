@@ -4,7 +4,7 @@ Donate link: http://bit.ly/1aoPaow
 Tags: cc, cc0, license, public domain, metadata, legal, creative, commons, seo, attribution, copyright, cc license, creative commons, cc zero, rights, copyright
 Requires at least: 2.7
 Tested up to: 4.2
-Stable tag: 1.8.6
+Stable tag: 1.8.7
 License: Apache License v2
 License URI: http://www.apache.org/licenses/LICENSE-2.0.txt
 
@@ -14,21 +14,22 @@ Helps you publish your content under the terms of Creative Commons and other lic
 
 == Description ==
 
-[Creative-Commons-Configurator](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official Creative-Commons-Configurator Homepage") is the only tool a user will ever need in order to license the contents of WordPress powered web site under the terms of a [Creative Commons](http://creativecommons.org/) or other license. Configuration of the plugin is possible through its configuration panel. Advanced users can further customize the plugin and extend its functionality through filters.
+[Creative-Commons-Configurator](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official Creative-Commons-Configurator Homepage") is the only tool a user will ever need in order to license the contents of WordPress powered web site under the terms of a [Creative Commons](http://creativecommons.org/) or other license. Configuration of the plugin is possible through its configuration panel. Advanced users can further customize the plugin and extend its functionality through filters. It is actively maintained since 2006 (historical [Creative-Commons-Configurator home](http://www.g-loaded.eu/2006/01/14/creative-commons-configurator-wordpress-plugin/ "Official historical Creative-Commons-Configurator Homepage")).
 
 The following licenses are built-in:
 
-- All Creative Commons 4.0 licenses.
+- All [Creative Commons](http://creativecommons.org/licenses/) 4.0 licenses.
 - The <a href="http://creativecommons.org/about/cc0">CC0</a> rights waiver by Creative Commons.
 - Although not a license and not recommended, the *All Rights Reserved* clause.
+- The plugin can easily be extended to support other licenses.
 
 = Quick Start =
 
-Making all your content available under the terms of a single license is as easy as selecting a default global license in the plugin configuration panel. In the same screen you can customize various details of license text and also the looks of the displayed license block.
+Making all your content available under the terms of a single license is as easy as selecting a default global license in the plugin's configuration screen. In the same screen you can customize various details of the license text and also the looks of the displayed license block.
 
-For those who need to license their content under various licenses, it is possible to customize the license on a per post basis at the *License* box in the post editing screen. If this is not enough, the `[license]` shortcode is available which can be used to generate quick license badges that can be used to easily add licensing information for parts of a single post.
+For those who license their content under various licenses, it is possible to customize the license on a per post basis from the *License* box in the post editing screen. If this is still not enough, the `[license]` shortcode is available, which can be used to generate quick license badges to easily add licensing information to parts of a single post.
 
-The built-in licenses can be customized or support for other custom licences can be added programmatically.
+The built-in licenses can be customized via filters and also the plugin can be extended in order to support custom licences.
 
 The features at a glance:
 
@@ -41,8 +42,9 @@ The features at a glance:
  - The Atom, RSS 2.0 and RDF (RSS 1.0) feeds through the Creative Commons RSS module, which validates properly. This option is compatible only with WordPress 2 or newer due to technical reasons.
  - A block with licensing information under the published content.
 - Some template tags are provided for use in your theme templates.
+- The text generated for each of the built-in licenses can be easily customized.
 - The plugin is ready for localization.
-- The plugin can be extended to support custom licenses. Further below an example is provided about how to add support for the WTFPL license. ;)
+- The plugin can be extended to support custom licenses.
 
 
 = Translations =
@@ -83,7 +85,7 @@ The `License` shortcode allows you quickly generate license badges. These can be
 
 The following parameters are supported:
 
-- `type`: (string) (required): The type of the license. This has to be one of the license types supported by the plugin. If the parameter is missing or an invalid type has been set, it will print the supported types. For instance: `cc__by, cc__by-nd, cc__by-sa, cc__by-nc, cc__by-nc-nd, cc__by-nc-sa, cc0`. There is no default.
+- `type`: (string) (required): The type of the license. This has to be one of the license types supported by the plugin. If the parameter is missing, it will print the supported types. For instance: `cc__by, cc__by-nd, cc__by-sa, cc__by-nc, cc__by-nc-nd, cc__by-nc-sa, cc0`. There is no default.
 - `compact`: (string) (0|1): Whether to use the compact license images or not. The default is "1".
 - `link`: (string) (0|1): Whether to create an image link to the license page or output just the `<img>` element. The default is "1".
 
@@ -121,52 +123,50 @@ The available filters are:
 1. `bccl_licenses` - applied to the array of the supported licenses. The hooked function should accept and return 1 argument: an array of licenses (see `bccl-licenses.php` for details).
 1. `bccl_default_license` - applied to the license slug that will be used for the current post. The hooked function should accept and return 1 argument: a string (see `bccl-licenses.php` for details).
 1. `bccl_supported_post_types` - applied to the array of the supported post types. The hooked function should accept and return 1 argument: an array of post types.
-1. `bccl_arr_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_arr_extra_permissions_template` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_arr_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_arr_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc0_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc0_extra_permissions_template` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc0_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc0_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc_license_text` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc_extra_permissions_template` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc_full_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_cc_minimal_license_block` - applied to the text that is generated by the license generator. The hooked function should accept and return 1 argument: a string.
-1. `bccl_license_image_url` - applied to the URL of the image of the used license. The hooked function should accept and return 1 argument: a URL.
 
 
-**Example 1**: you want to append a copyright notice to the CC license text.
+**Example 1**: you want to append a copyright notice under any CC license text.
 
-This can easily be done by hooking a custom function to the `bccl_cc_license_text` filter:
+This can easily be done by hooking a custom function to the `bccl_full_license_block_cc` filter:
 
 `
 function append_copyright_notice_to_cc_text( $license_text ) {
     $extra_text = '<br />Copyright &copy; ' . get_the_date('Y') . ' - Some Rights Reserved';
     return $license_text . $extra_text;
 }
-add_filter( 'bccl_cc_license_text', 'append_copyright_notice_to_cc_text', 10, 1 );
+add_filter( 'bccl_full_license_block_cc', 'append_copyright_notice_to_cc_text', 10, 1 );
 `
 This code can be placed inside your theme's `functions.php` file.
 
 
-**Example 2**: you want to add support for the WTFPL license.
+**Example 2**: You would like to add support for another license, for example the WTFPL.
 
-This can easily be done by hooking a custom function to the `bccl_licenses` filter:
+This can easily be done by hooking a custom generator function to the `bccl_licenses` filter:
 
 `
-// Example WTFPL output generator.
+// Example WTFPL generator.
 function bccl_wtfpl_generator( $license_slug, $license_data, $post, $options, $minimal=false ) {
-    $template = '<a rel="license" href="%s"><img src="%s" alt="%s" /></a>';
-    $template .= '<br />This work is licensed under a WTFPL International License.';
-    $full_license_block = sprintf( $template, $license_data['url'], $license_data['button_url'], $license_data['name'] );
-    return '<p class="cc-block">' . $full_license_block . '</p>';
+    // Here we use exactly the same templates as the CC licenses,
+    // which should be suitable for any kind of permissive copyright based license.
+    $templates = bccl_default_license_templates();
+    // In case we need to customize the default templates, here is how to do it:
+    //$templates = array_merge( bccl_default_license_templates(), array(
+    //    // Supported template tags: #work#, #creator#, #license#, #year#
+    //    'license_text_long' => __('#work#, written by #creator# in #year#, has been published under the terms of the #license#.', 'cc-configurator'),
+    //    // Supported template tags: #license#, #year#
+    //    'license_text_short' => __('This article is published under a #license#.', 'cc-configurator'),
+    //    // Supported template tags: #page#
+    //    'extra_perms' => __('More information about how to reuse or republish this work may be available in our #page# section.', 'cc-configurator')
+    //));
+    // Finally we use the base generator to build and return the HTML content.
+    // The base generator should be suitable for any type of license.
+    return bccl_base_generator( $license_slug, $license_data, $post, $options, $minimal, $templates );
 }
 // Add the WTFPL license to the array of available licenses.
 function bccl_add_wtfpl_license( $licenses ) {
     $licenses['wtfpl'] = array(         // slug (unique for each license)
         'url' => 'http://www.wtfpl.net/about/',    // URL to license page
-        'name' => 'WTFPL',   // Name of the license
+        'name' => 'WTFPL International License',   // Name of the license
         'name_short' => 'WTFPL',
         'button_url' => 'http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png', // URL to license button
         'button_compact_url' => 'http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-2.png', // URL to a small license button
@@ -225,6 +225,9 @@ You can find the bug tracker at the [Creative-Commons-Configurator Development w
 
 In the following list there are links to the changelog of each release:
 
+- [1.8.7](http://www.codetrax.org/versions/248)
+ - Improved the license generator engine with string based templates and implemented advanced filtering of the generated HTML code for easy customizations via filers.
+ - The shortcode now returns an empty string instead of an error message if an invalid type has been set. The error message indicating the supported license types is still printed if a type (required parameter) is missing.
 - [1.8.6](http://www.codetrax.org/versions/247)
  - Minor code improvements.
  - Updated features in readme.txt.

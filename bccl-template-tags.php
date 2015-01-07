@@ -146,8 +146,11 @@ function bccl_license_image_hyperlink() {
         return;
     }
 
+    // Determine license group
+    $license_group = bccl_get_license_group_name( $license_slug );
+
     // Append the license block to the content
-    $image_hyperlink = bccl_cc_generate_image_hyperlink( $license_slug, $license_data, $post, $options );
+    $image_hyperlink = bccl_cc_generate_image_hyperlink( $license_slug, $license_group, $license_data, $post, $options );
 
     echo bccl_add_placeholders($image_hyperlink);
 }
