@@ -53,7 +53,7 @@ function bccl_full_html_license() {
 
 
 /*
-Displays the licence summary page from creative commons in an iframe
+Displays the license summary page from creative commons in an iframe
 */
 function bccl_license_legalcode($width="100%", $height="600px", $css_class="cc-frame") {
 
@@ -87,7 +87,7 @@ function bccl_license_legalcode($width="100%", $height="600px", $css_class="cc-f
 
 
 /*
-Displays the licence summary page from creative commons in an iframe
+Displays the license summary page from creative commons in an iframe
 */
 function bccl_license_summary($width="100%", $height="600px", $css_class="cc-frame") {
 

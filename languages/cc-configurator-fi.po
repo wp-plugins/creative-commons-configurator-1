@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Creative-Commons-Configurator translations\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-05 18:27+0200\n"
-"PO-Revision-Date: 2015-01-05 16:28+0000\n"
+"POT-Creation-Date: 2015-01-07 05:54+0200\n"
+"PO-Revision-Date: 2015-01-07 03:55+0000\n"
 "Last-Translator: George Notaras <gnot@g-loaded.eu>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/cc-configurator/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -451,48 +451,43 @@ msgid ""
 "License"
 msgstr "Creative Commons Nimeä-EiKaupallinen-JaaSamoin %s Kansainvälinen Lisenssi"
 
-#: bccl-generators.php:23
-#, php-format
-msgid "Copyright &copy; %s - All Rights Reserved"
-msgstr "Tekijänoikeudet &copy; %s - Kaikki oikeudet pidätetään"
+#: bccl-generators.php:19
+msgid "#work# by #creator# is licensed under a #license#."
+msgstr ""
 
-#: bccl-generators.php:36
-#, php-format
+#: bccl-generators.php:20
+msgid "This work is licensed under a #license#."
+msgstr ""
+
+#: bccl-generators.php:21
+msgid ""
+"Permissions beyond the scope of this license may be available at #page#."
+msgstr ""
+
+#: bccl-generators.php:39 bccl-generators.php:40
+msgid "Copyright &copy; #year# - All Rights Reserved"
+msgstr ""
+
+#: bccl-generators.php:41
 msgid ""
 "Information about how to reuse or republish this work may be available at "
-"%s."
-msgstr "Tietoa tämän teoksen käytöstä ja uudelleenjulkaisusta voi olla saatavilla osoitteessa %s."
+"#page#."
+msgstr ""
 
-#: bccl-generators.php:84
-#, php-format
+#: bccl-generators.php:50
 msgid ""
-"To the extent possible under law, %s has waived all copyright and related or"
-" neighboring rights to %s."
-msgstr "Lainsäädännön sallimassa enimmäislaajuudessa %s on luopunut kaikista tekijän- ja lähioikeuksistaan teokseen %s."
+"To the extent possible under law, #creator# has waived all copyright and "
+"related or neighboring rights to #work#."
+msgstr ""
 
-#: bccl-generators.php:86
+#: bccl-generators.php:51
 msgid ""
 "To the extent possible under law, the creator has waived all copyright and "
 "related or neighboring rights to this work."
 msgstr "Lainsäädännön sallimassa enimmäislaajuudessa tekijä on luopunut kaikista tekijän- ja lähioikeuksistaan tähän teokseen."
 
-#: bccl-generators.php:101
-#, php-format
+#: bccl-generators.php:52
 msgid ""
-"Terms and conditions beyond the scope of this waiver may be available at %s."
+"Terms and conditions beyond the scope of this waiver may be available at "
+"#page#."
 msgstr ""
-
-#: bccl-generators.php:156
-#, php-format
-msgid "%s by %s is licensed under a %s."
-msgstr "%s, jonka tekijä on %s, annetaan käyttöön lisenssillä %s."
-
-#: bccl-generators.php:158
-#, php-format
-msgid "This work is licensed under a %s."
-msgstr "Tämän teoksen lisenssi on %s."
-
-#: bccl-generators.php:173
-#, php-format
-msgid "Permissions beyond the scope of this license may be available at %s."
-msgstr "Aineiston käyttöä tämän lisenssin lisäksi koskevia ehtoja voi olla saatavilla osoitteessa %s."

@@ -21,14 +21,14 @@
 # 
 # Translators:
 # alvaro <amm101287@yahoo.es>, 2013
-# Pablo Laguna <pablolaguna@vera.com.uy>, 2014
+# Pablo Laguna <pablolaguna@vera.com.uy>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Creative-Commons-Configurator translations\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-05 18:27+0200\n"
-"PO-Revision-Date: 2015-01-05 16:28+0000\n"
-"Last-Translator: George Notaras <gnot@g-loaded.eu>\n"
+"POT-Creation-Date: 2015-01-07 05:54+0200\n"
+"PO-Revision-Date: 2015-01-07 15:47+0000\n"
+"Last-Translator: Pablo Laguna <pablolaguna@vera.com.uy>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/cc-configurator/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +56,7 @@ msgstr "Creative Commons Configurator"
 msgid ""
 "Helps you publish your content under the terms of Creative Commons and other"
 " licenses."
-msgstr ""
+msgstr "Te ayuda a publicar tu contenido bajo los términos de Creative Commons u otras licencias."
 
 #: bccl-admin-panel.php:48 bccl-admin-panel.php:108
 msgid "License Settings"
@@ -267,7 +267,7 @@ msgid ""
 "the licensing information. These settings have an effect only if the text "
 "block containing licensing information has been enabled above for a specific"
 " content type."
-msgstr ""
+msgstr "En esta sección puedes configurar la apariencia de los bloques de texto que contienen la información de licenciamiento. Este ajuste tiene efecto sólo si los bloques de texto de información de licenciamiento han sido habilitados anteriormente para un tipo específico de contenido."
 
 #: bccl-admin-panel.php:324 bccl-admin-panel.php:327
 msgid "Colors of the text block"
@@ -296,7 +296,7 @@ msgid ""
 "more. You can still format the license block via your own CSS. The <code>cc-"
 "block</code> and <code>cc-button</code> classes have been reserved for "
 "formatting the license block and the license button respectively."
-msgstr ""
+msgstr "Deshabilita el formateo interno del bloque de licencia. Si el formateo interno está deshabilitado, los colores seleccionados antes no tendrán efecto. Puede aún así formatear el bloque de licencia mediante su propio código CSS. Las clases <code>cc-block</code> y <code>cc-button</code> han sido reservadas para el formateo del bloque de licencia y del botón de licencia respectivamente."
 
 #: bccl-admin-panel.php:373
 msgid "Miscellaneous"
@@ -311,7 +311,7 @@ msgstr "Donaciones:"
 msgid ""
 "By checking this box, the <em>message from the author</em> above goes away. "
 "Thanks for <a href=\"%s\">donating</a>!"
-msgstr ""
+msgstr "Marcando esta casilla, el <em>mensaje del autor</em> anterior desaparece. ¡Gracias por <a href=\"%s\">donar</a>!"
 
 #: bccl-admin-panel.php:402
 msgid "Save Changes"
@@ -338,7 +338,7 @@ msgid ""
 "The default license from the general plugin settings is used in order to "
 "license this work. Use the following selector to choose a custom license for"
 " this content."
-msgstr ""
+msgstr "La licencia por defecto de los ajustes generales del plugin es usada para licenciar esta obra. Usa el siguiente selector para elegir una licencia particular para este contenido."
 
 #: bccl-admin-panel.php:670
 msgid "Additional terms and conditions"
@@ -350,7 +350,7 @@ msgid ""
 "license, it is possible to add a link to the page containing these "
 "additional terms and conditions. The following fields override the "
 "respective fields of the general plugin settings."
-msgstr ""
+msgstr "Si disponibilizas tu obra bajo términos que exceden la licencia usada, puedes añadir un enlace a la página que contenga los términos y condiciones adicionales. Los siguientes campos anulan los respectivos campos de la configuración general del plugin."
 
 #: bccl-admin-panel.php:677
 msgid "URL of the page containing extra permissions."
@@ -416,7 +416,7 @@ msgstr "Nombre mostrado"
 
 #: bccl-licenses.php:19
 msgid "No Licensing Information"
-msgstr ""
+msgstr "Sin información de licencia"
 
 #: bccl-licenses.php:28
 #, php-format
@@ -452,48 +452,43 @@ msgid ""
 "License"
 msgstr "Licencia Creative Commons Atribución-NoComercial-CompartirIgual %s Internacional"
 
-#: bccl-generators.php:23
-#, php-format
-msgid "Copyright &copy; %s - All Rights Reserved"
-msgstr "&copy; %s - Todos los derechos reservados"
+#: bccl-generators.php:19
+msgid "#work# by #creator# is licensed under a #license#."
+msgstr "#work# por #creator# está licenciado bajo una #license#."
 
-#: bccl-generators.php:36
-#, php-format
+#: bccl-generators.php:20
+msgid "This work is licensed under a #license#."
+msgstr "Esta obra está licenciada bajo una #license#."
+
+#: bccl-generators.php:21
+msgid ""
+"Permissions beyond the scope of this license may be available at #page#."
+msgstr "Puede encontrar más permisos que exceden esta licencia en #page#."
+
+#: bccl-generators.php:39 bccl-generators.php:40
+msgid "Copyright &copy; #year# - All Rights Reserved"
+msgstr "Copyright &copy; #year# - Todos los derechos reservados"
+
+#: bccl-generators.php:41
 msgid ""
 "Information about how to reuse or republish this work may be available at "
-"%s."
-msgstr "Puede encontrar información sobre cómo reutilizar o republicar este trabajo en %s."
+"#page#."
+msgstr "Puede encontrar información sobre cómo reusar o volver a publicar esta obra en #page#."
 
-#: bccl-generators.php:84
-#, php-format
+#: bccl-generators.php:50
 msgid ""
-"To the extent possible under law, %s has waived all copyright and related or"
-" neighboring rights to %s."
-msgstr "En la medida en que lo permita la ley, %s renuncia a todos los derechos de autor y derechos conexos de %s."
+"To the extent possible under law, #creator# has waived all copyright and "
+"related or neighboring rights to #work#."
+msgstr "En la medida en que lo permita la ley, #creator# ha renunciado a todo derecho de autor y derechos conexos sobre #work#."
 
-#: bccl-generators.php:86
+#: bccl-generators.php:51
 msgid ""
 "To the extent possible under law, the creator has waived all copyright and "
 "related or neighboring rights to this work."
 msgstr "En la medida en que lo permita la ley, el autor renuncia a todos los derechos de autor y derechos conexos de este contenido."
 
-#: bccl-generators.php:101
-#, php-format
+#: bccl-generators.php:52
 msgid ""
-"Terms and conditions beyond the scope of this waiver may be available at %s."
-msgstr ""
-
-#: bccl-generators.php:156
-#, php-format
-msgid "%s by %s is licensed under a %s."
-msgstr "%s por %s está licenciado bajo una %s."
-
-#: bccl-generators.php:158
-#, php-format
-msgid "This work is licensed under a %s."
-msgstr "Este trabajo está licenciado bajo una %s."
-
-#: bccl-generators.php:173
-#, php-format
-msgid "Permissions beyond the scope of this license may be available at %s."
-msgstr "Puede consultar más permisos que exceden esta licencia en %s."
+"Terms and conditions beyond the scope of this waiver may be available at "
+"#page#."
+msgstr "Puede encontrar más términos y condiciones en #page#."

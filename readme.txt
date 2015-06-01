@@ -4,7 +4,7 @@ Donate link: http://bit.ly/1aoPaow
 Tags: cc, cc0, license, public domain, metadata, legal, creative, commons, seo, attribution, copyright, cc license, creative commons, cc zero, rights, copyright
 Requires at least: 2.7
 Tested up to: 4.2
-Stable tag: 1.8.7
+Stable tag: 1.8.8
 License: Apache License v2
 License URI: http://www.apache.org/licenses/LICENSE-2.0.txt
 
@@ -21,7 +21,6 @@ The following licenses are built-in:
 - All [Creative Commons](http://creativecommons.org/licenses/) 4.0 licenses.
 - The <a href="http://creativecommons.org/about/cc0">CC0</a> rights waiver by Creative Commons.
 - Although not a license and not recommended, the *All Rights Reserved* clause.
-- The plugin can easily be extended to support other licenses.
 
 = Quick Start =
 
@@ -29,7 +28,7 @@ Making all your content available under the terms of a single license is as easy
 
 For those who license their content under various licenses, it is possible to customize the license on a per post basis from the *License* box in the post editing screen. If this is still not enough, the `[license]` shortcode is available, which can be used to generate quick license badges to easily add licensing information to parts of a single post.
 
-The built-in licenses can be customized via filters and also the plugin can be extended in order to support custom licences.
+The built-in licenses can be customized via filters and also the plugin can be extended in order to support custom licenses.
 
 The features at a glance:
 
@@ -225,9 +224,14 @@ You can find the bug tracker at the [Creative-Commons-Configurator Development w
 
 In the following list there are links to the changelog of each release:
 
+- [1.8.8](http://www.codetrax.org/versions/249)
+ - Updated French translation (100%). (props to Arthur Lutz, bzg, Manuel Pintor)
+ - Added Norwegian Bokmal and Norwegian Nynorsk translations. (props to Birgit Fostervold)
+ - Updated Finnish translation (90%). (props to Jani Uusitalo)
+ - Updated Spanish translation (100%). (props to Pablo Laguna, Alvaro)
 - [1.8.7](http://www.codetrax.org/versions/248)
- - Improved the license generator engine with string based templates and implemented advanced filtering of the generated HTML code for easy customizations via filers.
- - The shortcode now returns an empty string instead of an error message if an invalid type has been set. The error message indicating the supported license types is still printed if a type (required parameter) is missing.
+ - Improved the license generator engine with string based templates and implemented advanced filtering of the generated HTML code for easy customizations via filters.
+ - The shortcode now returns an empty string instead of an error message if an invalid type has been set. The error message indicating the supported license types is still being printed, but only if the `type` parameter (required) is missing.
 - [1.8.6](http://www.codetrax.org/versions/247)
  - Minor code improvements.
  - Updated features in readme.txt.
