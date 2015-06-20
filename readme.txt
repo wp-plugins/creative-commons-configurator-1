@@ -92,8 +92,8 @@ Examples:
 
 `
 [license type="cc__by-sa"]
-[license type="cc__by-sa compact="0"]
-[license type="cc__by-sa compact="0" link="0"]
+[license type="cc__by-sa" compact="0"]
+[license type="cc__by-sa" compact="0" link="0"]
 `
 
 = Template Tags =
