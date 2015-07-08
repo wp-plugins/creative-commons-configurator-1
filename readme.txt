@@ -4,7 +4,7 @@ Donate link: http://bit.ly/1aoPaow
 Tags: cc, cc0, license, public domain, metadata, legal, creative, commons, seo, attribution, copyright, cc license, creative commons, cc zero, rights, copyright
 Requires at least: 2.7
 Tested up to: 4.2
-Stable tag: 1.8.8
+Stable tag: 1.8.9
 License: Apache License v2
 License URI: http://www.apache.org/licenses/LICENSE-2.0.txt
 
@@ -92,8 +92,8 @@ Examples:
 
 `
 [license type="cc__by-sa"]
-[license type="cc__by-sa compact="0"]
-[license type="cc__by-sa compact="0" link="0"]
+[license type="cc__by-sa" compact="0"]
+[license type="cc__by-sa" compact="0" link="0"]
 `
 
 = Template Tags =
@@ -224,6 +224,8 @@ You can find the bug tracker at the [Creative-Commons-Configurator Development w
 
 In the following list there are links to the changelog of each release:
 
+- [1.8.9](http://www.codetrax.org/versions/250)
+ - Added Dutch translation. (props to Dave Borghuis)
 - [1.8.8](http://www.codetrax.org/versions/249)
  - Updated French translation (100%). (props to Arthur Lutz, bzg, Manuel Pintor)
  - Added Norwegian Bokmal and Norwegian Nynorsk translations. (props to Birgit Fostervold)
